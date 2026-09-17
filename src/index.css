@@ -1,0 +1,71 @@
+@import "@fontsource-variable/inter";
+@import "tailwindcss";
+
+:root {
+  --background: #fff7ed;
+  --foreground: #211922;
+  --card: #ffffff;
+  --card-foreground: #211922;
+  --popover: #ffffff;
+  --popover-foreground: #211922;
+  --primary: #f97316;
+  --primary-foreground: #ffffff;
+  --secondary: #ffedd5;
+  --secondary-foreground: #211922;
+  --muted: #ffedd5;
+  --muted-foreground: #62625b;
+  --accent: #ffedd5;
+  --accent-foreground: #211922;
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+  --border: #fed7aa;
+  --input: #fed7aa;
+  --ring: #f97316;
+  --radius: 0.85rem;
+}
+
+@theme inline {
+  --font-sans: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom subtle glassmorphism & glow effects */
+.glass-panel {
+  background: rgba(255, 247, 237, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.glow-orange {
+  box-shadow: 0 0 50px -10px rgba(249, 115, 22, 0.25);
+}
+
+.glow-orange-subtle {
+  box-shadow: 0 4px 24px -4px rgba(249, 115, 22, 0.15);
+}
+
