@@ -8,6 +8,7 @@ interface CtaProps {
 }
 
 export const Cta: React.FC<CtaProps> = ({ onOpenDemo }) => {
+  const appName = import.meta.env.VITE_APP_NAME || "Veloura";
   return (
     <section className="relative overflow-hidden py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -27,7 +28,7 @@ export const Cta: React.FC<CtaProps> = ({ onOpenDemo }) => {
             </h2>
 
             <p className="text-base sm:text-lg text-muted-foreground leading-relaxed text-balance">
-              Join over 500+ forward-thinking salon owners who replaced messy spreadsheets and missed appointments with ZenMonk's unified operating system.
+              Join over 500+ forward-thinking salon owners who replaced messy spreadsheets and missed appointments with {appName}'s unified operating system.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">

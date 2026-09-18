@@ -19,6 +19,7 @@ interface DemoModalProps {
 }
 
 export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose }) => {
+  const appName = import.meta.env.VITE_APP_NAME || "Veloura";
   const dispatch = useAppDispatch();
   const { isSubmitting, isSuccess, successMessage, error } = useAppSelector(
     (state) => state.leads
@@ -53,7 +54,7 @@ export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose }) => {
       description={
         isSuccess
           ? undefined
-          : "Discover how ZenMonk can tailor automated scheduling, custom client booking storefronts, and invoicing specifically to your salon."
+          : `Discover how ${appName} can tailor automated scheduling, custom client booking storefronts, and invoicing specifically to your salon.`
       }
     >
       {isSuccess ? (

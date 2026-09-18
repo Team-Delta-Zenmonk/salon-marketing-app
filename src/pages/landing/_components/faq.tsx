@@ -4,7 +4,14 @@ import { Badge } from "@/components/ui/badge";
 import faqsData from "@/data/faqs.json";
 import type { FaqItem } from "@/interfaces/faq.interface";
 
-const faqs: FaqItem[] = faqsData;
+const appName = import.meta.env.VITE_APP_NAME || "Veloura";
+const faqs: FaqItem[] = faqsData.map((faq) => {
+  return {
+    ...faq,
+    q: faq.q.replace("Zenmonk", appName),
+    a: faq.a.replace("Zenmonk", appName),
+  };
+});
 
 export const Faq: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -24,7 +31,7 @@ export const Faq: React.FC = () => {
             Frequently Asked Questions
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-            Everything you need to know about getting started with the ZenMonk operating system.
+            Everything you need to know about getting started with the {appName} operating system.
           </p>
         </div>
 

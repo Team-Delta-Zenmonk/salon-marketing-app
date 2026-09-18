@@ -9,6 +9,7 @@ export const RoiCalculator: React.FC = () => {
   const [stylists, setStylists] = useState<number>(5);
   const [appointmentsPerDay, setAppointmentsPerDay] = useState<number>(6);
   const [avgTicket, setAvgTicket] = useState<number>(650);
+  const appName = import.meta.env.VITE_APP_NAME || "Veloura";
 
   const workingDays = 26;
   const totalMonthlyAppointments = stylists * appointmentsPerDay * workingDays;
@@ -34,7 +35,7 @@ export const RoiCalculator: React.FC = () => {
             Calculate Your Salon's Revenue Potential in Rupees (₹).
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed text-balance">
-            See how much time your team saves and how much lost no-show revenue you recover every month with ZenMonk.
+            See how much time your team saves and how much lost no-show revenue you recover every month with {appName}.
           </p>
         </div>
 

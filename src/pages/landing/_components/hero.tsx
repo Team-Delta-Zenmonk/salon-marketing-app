@@ -9,15 +9,16 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onOpenDemo }) => {
+  const appName = import.meta.env.VITE_APP_NAME || "Veloura";
   return (
     <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-32">
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[350px] bg-primary/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center space-y-6 max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 shadow-2xs backdrop-blur-sm animate-in fade-in duration-500">
-            <Sparkles className="h-3.5 w-3.5 text-primary" />
-            <span className="text-xs font-semibold tracking-wide text-primary">
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 py-1.5 shadow-2xs backdrop-blur-sm animate-in fade-in duration-500 max-w-full text-balance">
+            <Sparkles className="h-3.5 w-3.5 text-primary shrink-0" />
+            <span className="text-[11px] sm:text-xs font-semibold tracking-wide text-primary">
               The Next-Generation Operating System for Salons & Spas
             </span>
           </div>
@@ -30,7 +31,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDemo }) => {
           </h1>
 
           <p className="text-base sm:text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-2xl text-balance">
-            Stop losing hours to missed calls, double-bookings, and manual paper logs. ZenMonk delivers a multi-staff smart scheduler, an instant branded web storefront, effortless POS invoicing, and real-time stock control.
+            Stop losing hours to missed calls, double-bookings, and manual paper logs. {appName} delivers a multi-staff smart scheduler, an instant branded web storefront, effortless POS invoicing, and real-time stock control.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-3.5 pt-2 w-full sm:w-auto">

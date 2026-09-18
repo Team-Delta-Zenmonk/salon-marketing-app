@@ -5,7 +5,13 @@ import { Card } from "@/components/ui/card";
 import testimonialsData from "@/data/testimonials.json";
 import type { TestimonialItem } from "@/interfaces/testimonial.interface";
 
-const testimonials: TestimonialItem[] = testimonialsData;
+const appName = import.meta.env.VITE_APP_NAME || "Veloura";
+const testimonials: TestimonialItem[] = testimonialsData.map((t) => {
+  return {
+    ...t,
+    quote: t.quote.replace("Zenmonk", appName),
+  };
+});
 
 export const Testimonials: React.FC = () => {
   return (
@@ -19,7 +25,7 @@ export const Testimonials: React.FC = () => {
             Loved by Elite Stylists and Salon Owners Worldwide.
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed text-balance">
-            See how top-tier salons streamlined operations, delighted clients, and accelerated profit margins with ZenMonk.
+            See how top-tier salons streamlined operations, delighted clients, and accelerated profit margins with {appName}.
           </p>
         </div>
 

@@ -36,7 +36,7 @@ export function Modal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-hidden">
       <div
         className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity animate-in fade-in"
         onClick={onClose}
@@ -44,34 +44,36 @@ export function Modal({
 
       <div
         className={cn(
-          "relative w-full max-w-lg rounded-3xl border border-border bg-background p-6 sm:p-8 shadow-2xl z-10 transition-all animate-in zoom-in-95 duration-200",
+          "relative w-full max-w-lg rounded-2xl sm:rounded-3xl border border-border bg-background p-4 sm:p-6 shadow-2xl z-10 transition-all animate-in zoom-in-95 duration-200 my-auto h-auto max-h-[calc(100vh-2rem)] max-h-[calc(100dvh-2rem)] flex flex-col overflow-hidden",
           className
         )}
       >
         <button
           onClick={onClose}
-          className="absolute right-5 top-5 rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+          className="absolute right-3 top-3 sm:right-4 sm:top-4 rounded-full p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors shrink-0 z-20 bg-background/80 backdrop-blur-xs"
         >
           <X className="h-5 w-5" />
           <span className="sr-only">Close</span>
         </button>
 
         {(title || description) && (
-          <div className="mb-6 space-y-1.5 pr-6">
+          <div className="mb-3 sm:mb-4 space-y-1 pr-8 shrink-0">
             {title && (
-              <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
+              <h2 className="text-base sm:text-xl font-semibold tracking-tight text-foreground">
                 {title}
               </h2>
             )}
             {description && (
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-xs text-muted-foreground leading-relaxed">
                 {description}
               </p>
             )}
           </div>
         )}
 
-        {children}
+        <div className="overflow-y-auto custom-scrollbar flex-1 min-h-0 pr-1 py-1">
+          {children}
+        </div>
       </div>
     </div>
   );
