@@ -1,0 +1,33 @@
+[
+  {
+    "id": "faq-1",
+    "q": "Do I need to enter credit card details to start the 14-day free trial?",
+    "a": "No! You can register your salon, configure your custom subdomain (e.g., yoursalon.salon.com), add services and staff, and start taking appointments immediately with zero credit card required. You only choose a plan when you are ready to continue beyond 14 days."
+  },
+  {
+    "id": "faq-2",
+    "q": "How do my customers book appointments?",
+    "a": "Every salon gets their own branded storefront at yoursalon.salon.com the second you complete onboarding. You can put this link in your Instagram bio, Google Business Profile, WhatsApp messages, or website. Customers can view treatments, choose specialists, and book directly without needing to download an app."
+  },
+  {
+    "id": "faq-3",
+    "q": "Can I migrate my existing client and service data from another tool?",
+    "a": "Yes! ZenMonk supports one-click CSV imports for client contacts, service menus, and retail inventory items. If you are switching from Vagaro, Fresha, Mindbody, or Square, our concierge team can also assist with automated migration."
+  },
+  {
+    "id": "faq-4",
+    "q": "What hardware is required for POS invoicing and thermal receipts?",
+    "a": "ZenMonk runs smoothly in any modern web browser on iPad, Android tablets, Mac, and Windows PCs. For receipt printing, we support standard ESC/POS 58mm and 80mm thermal receipt printers (via Bluetooth, USB, or LAN), as well as standard AirPrint and A4 PDF printing."
+  },
+  {
+    "id": "faq-5",
+    "q": "How does payment processing and direct bank settlement work?",
+    "a": "Salons connect their preferred payment gateway directly inside their billing settings. When customers pay online or pre-pay booking deposits via UPI, cards, or net banking, funds settle directly into your salon's registered bank account. ZenMonk never holds your salon's revenue."
+  },
+  {
+    "id": "faq-6",
+    "q": "Can I change plans or cancel my subscription at any time?",
+    "a": "Absolutely. You can switch between Monthly and Annual billing or upgrade to Enterprise anytime inside your Billing dashboard. There are zero cancellation fees or lock-in contracts."
+  }
+]
+

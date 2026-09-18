@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getManagementAppUrl, getStorefrontUrl } from "@/lib/domain";
 
-export const PlatformPreview: React.FC = () => {
+export const Preview: React.FC = () => {
   const [viewMode, setViewMode] = useState<"admin" | "storefront">("admin");
 
   return (

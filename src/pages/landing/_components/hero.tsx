@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getManagementAppUrl } from "@/lib/domain";
 
-interface HeroSectionProps {
+interface HeroProps {
   onOpenDemo: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenDemo }) => {
+export const Hero: React.FC<HeroProps> = ({ onOpenDemo }) => {
   return (
     <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-32">
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[350px] bg-primary/10 rounded-full blur-3xl pointer-events-none -z-10" />

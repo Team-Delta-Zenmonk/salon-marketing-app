@@ -3,11 +3,7 @@ import { Sparkles, Menu, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getManagementAppUrl } from "@/lib/domain";
 
-interface HeaderProps {
-  onOpenDemo: () => void;
-}
-
-export const Header: React.FC<HeaderProps> = ({ onOpenDemo }) => {
+export const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
@@ -52,15 +48,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenDemo }) => {
         </nav>
 
         <div className="hidden sm:flex items-center gap-3">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onOpenDemo}
-            className="text-xs font-medium text-foreground hover:text-primary"
-          >
-            Book VIP Demo
-          </Button>
-
           <a href={getManagementAppUrl("/login")}>
             <Button variant="outline" size="sm" className="text-xs font-medium">
               Sign In
@@ -100,17 +87,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenDemo }) => {
           </nav>
 
           <div className="pt-4 border-t border-border flex flex-col gap-2.5">
-            <Button
-              variant="outline"
-              className="w-full justify-center"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenDemo();
-              }}
-            >
-              Book VIP Demo
-            </Button>
-
             <a href={getManagementAppUrl("/login")} className="w-full">
               <Button variant="secondary" className="w-full justify-center">
                 Sign In to Salon App

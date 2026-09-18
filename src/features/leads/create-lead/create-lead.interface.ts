@@ -4,8 +4,7 @@ export interface CreateLeadPayload {
   name: string;
   salon_name: string;
   email: string;
-  phone: string;
-  team_size: string;
+  phone?: string;
   notes?: string;
 }
 

@@ -3,11 +3,11 @@ import { ArrowRight, Sparkles, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getManagementAppUrl } from "@/lib/domain";
 
-interface CtaBannerProps {
+interface CtaProps {
   onOpenDemo: () => void;
 }
 
-export const CtaBanner: React.FC<CtaBannerProps> = ({ onOpenDemo }) => {
+export const Cta: React.FC<CtaProps> = ({ onOpenDemo }) => {
   return (
     <section className="relative overflow-hidden py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

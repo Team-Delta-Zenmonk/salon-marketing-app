@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Calculator, TrendingUp, Clock, DollarSign, ArrowRight } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { Calculator, Clock, DollarSign, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency, formatNumber } from "@/lib/utils";

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "testimonial-1",
+    "name": "Elena Rostova",
+    "role": "Founder & Creative Director",
+    "salon": "Atelier Luxe Salon • Beverly Hills",
+    "metric": "+38% Online Booking Growth",
+    "quote": "ZenMonk transformed our front desk. Our high-end clientele expects a flawless digital experience, and having our own custom booking portal at atelier-luxe.salon.com with upfront online deposits eliminated our weekend no-shows entirely.",
+    "rating": 5
+  },
+  {
+    "id": "testimonial-2",
+    "name": "Devon Brooks",
+    "role": "Master Barber & Co-Owner",
+    "salon": "Crown & Blade Grooming Lounge • Brooklyn",
+    "metric": "14 Hours Saved Every Week",
+    "quote": "The POS checkout and split-tender billing is incredible. We bundle luxury pomades directly onto the haircut ticket, and inventory counts auto-deplete instantly. My stylists check their daily commission numbers from their phones without bugging management.",
+    "rating": 5
+  },
+  {
+    "id": "testimonial-3",
+    "name": "Camille Dubois",
+    "role": "Operations Director",
+    "salon": "Savoir Wellness & Spa Group • Miami",
+    "metric": "₹3,80,000+ Recovered Revenue",
+    "quote": "Managing multiple treatment suites used to be a nightmare of overlapping paper schedules. ZenMonk's smart calendar with automated sanitation buffer times keeps all our estheticians perfectly synchronized across every room.",
+    "rating": 5
+  }
+]
+

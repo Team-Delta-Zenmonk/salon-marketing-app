@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Sparkles, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import TextField from "@/components/ui/text-field";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { createLeadAction, resetLeadState } from "@/features/leads";
+import {
+  createLeadAction,
+  resetLeadState,
+  createLeadSchema,
+  type CreateLeadFormValues,
+} from "@/features/leads";
 
 interface DemoModalProps {
   isOpen: boolean;
@@ -17,29 +24,24 @@ export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose }) => {
     (state) => state.leads
   );
 
-  const [formData, setFormData] = useState({
-    name: "",
-    salon_name: "",
-    email: "",
-    phone: "",
-    team_size: "3-5",
-    notes: "",
+  const { control, handleSubmit, reset } = useForm<CreateLeadFormValues>({
+    resolver: zodResolver(createLeadSchema),
+    defaultValues: {
+      name: "",
+      salon_name: "",
+      email: "",
+      phone: "",
+      notes: "",
+    },
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.salon_name) return;
-    await dispatch(createLeadAction(formData));
+  const onSubmit = async (data: CreateLeadFormValues) => {
+    await dispatch(createLeadAction(data));
   };
 
   const handleClose = () => {
     dispatch(resetLeadState());
+    reset();
     onClose();
   };
 
@@ -73,7 +75,7 @@ export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose }) => {
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {error && (
             <div className="flex items-center gap-2 p-3 text-xs text-destructive bg-destructive/10 rounded-xl border border-destructive/20">
               <AlertCircle className="h-4 w-4 shrink-0" />
@@ -82,92 +84,52 @@ export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose }) => {
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-foreground">
-                Your Full Name *
-              </label>
-              <Input
-                name="name"
-                required
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="e.g. Elena Alvarez"
-              />
-            </div>
+            <TextField
+              name="name"
+              control={control}
+              label="Your Full Name *"
+              placeholder="e.g. Elena Alvarez"
+              maxLength={250}
+            />
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-foreground">
-                Salon / Spa Name *
-              </label>
-              <Input
-                name="salon_name"
-                required
-                value={formData.salon_name}
-                onChange={handleChange}
-                placeholder="e.g. Atelier Luxe"
-              />
-            </div>
+            <TextField
+              name="salon_name"
+              control={control}
+              label="Salon / Spa Name *"
+              placeholder="e.g. Atelier Luxe"
+              maxLength={250}
+            />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-foreground">
-                Work Email *
-              </label>
-              <Input
-                type="email"
-                name="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="elena@atelierluxe.com"
-              />
-            </div>
+            <TextField
+              name="email"
+              control={control}
+              type="email"
+              label="Work Email *"
+              placeholder="elena@atelierluxe.com"
+              maxLength={250}
+            />
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-foreground">
-                Phone Number
-              </label>
-              <Input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="+1 (555) 019-2834"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-foreground">
-              Team Size / Chairs
-            </label>
-            <select
-              name="team_size"
-              value={formData.team_size}
-              onChange={handleChange}
-              className="flex h-11 w-full rounded-xl border border-input bg-background px-4 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:border-primary transition-all"
-            >
-              <option value="1-2">1–2 Stylists (Solo / Duo)</option>
-              <option value="3-5">3–5 Stylists (Growing Studio)</option>
-              <option value="6-10">6–10 Stylists (Established Salon)</option>
-              <option value="10+">10+ Stylists (Multi-Branch / Flagship)</option>
-            </select>
-          </div>
-
-          <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-foreground">
-              What is your biggest operational challenge right now?
-            </label>
-            <textarea
-              name="notes"
-              rows={2}
-              value={formData.notes}
-              onChange={handleChange}
-              placeholder="e.g. Too many no-shows, messy commission math, want instant client online booking..."
-              className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:border-primary transition-all resize-none"
+            <TextField
+              name="phone"
+              control={control}
+              type="text"
+              label="Phone Number"
+              placeholder="9876543210"
+              maxLength={15}
             />
           </div>
+
+          <TextField
+            name="notes"
+            control={control}
+            label="What is your biggest operational challenge right now?"
+            placeholder="e.g. Too many no-shows, messy commission math, want instant client online booking..."
+            multiline
+            rows={2}
+            maxLength={500}
+          />
 
           <div className="pt-2">
             <Button

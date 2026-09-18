@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { HeroSection } from "./_components/hero-section";
+import { FloatingWidget } from "@/components/floating-widget";
+import { Hero } from "./_components/hero";
 import { SocialProof } from "./_components/social-proof";
-import { FeaturesBento } from "./_components/features-bento";
-import { PlatformPreview } from "./_components/platform-preview";
+import { Features } from "./_components/features";
+import { Preview } from "./_components/preview";
 import { RoiCalculator } from "./_components/roi-calculator";
-import { PricingSection } from "./_components/pricing-section";
-import { TestimonialsSection } from "./_components/testimonials-section";
-import { FaqSection } from "./_components/faq-section";
-import { CtaBanner } from "./_components/cta-banner";
+import { Pricing } from "./_components/pricing";
+import { Testimonials } from "./_components/testimonials";
+import { Faq } from "./_components/faq";
+import { Cta } from "./_components/cta";
 import { DemoModal } from "./_components/demo-modal";
 
 export const LandingPage: React.FC = () => {
@@ -25,32 +26,33 @@ export const LandingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground selection:bg-primary/15 selection:text-primary">
-      <Header onOpenDemo={handleOpenDemo} />
+      <Header />
 
       <main className="flex-1">
-        <HeroSection onOpenDemo={handleOpenDemo} />
+        <Hero onOpenDemo={handleOpenDemo} />
 
         <SocialProof />
 
-        <FeaturesBento />
+        <Features />
 
-        <PlatformPreview />
+        <Preview />
 
         <RoiCalculator />
 
-        <PricingSection onOpenDemo={handleOpenDemo} />
+        <Pricing onOpenDemo={handleOpenDemo} />
 
+        <Testimonials />
 
-        <TestimonialsSection />
+        <Faq />
 
-        <FaqSection />
-
-        <CtaBanner onOpenDemo={handleOpenDemo} />
+        <Cta onOpenDemo={handleOpenDemo} />
       </main>
 
       <Footer />
 
       <DemoModal isOpen={isDemoModalOpen} onClose={handleCloseDemo} />
+
+      <FloatingWidget onOpenDemo={handleOpenDemo} />
     </div>
   );
 };

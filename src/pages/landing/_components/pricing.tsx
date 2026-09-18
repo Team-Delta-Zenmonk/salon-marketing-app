@@ -4,101 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { getManagementAppUrl } from "@/lib/domain";
+import plansData from "@/data/plans.json";
+import type { PlanItem } from "@/interfaces/plan.interface";
 
-interface PricingSectionProps {
+const plans: PlanItem[] = plansData;
+
+interface PricingProps {
   onOpenDemo?: () => void;
 }
 
-export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenDemo }) => {
-  const plans = [
-    {
-      id: "trial",
-      name: "14-Day Free Trial",
-      badge: "Zero Risk",
-      priceDisplay: "₹0",
-      periodDisplay: "for 14 days",
-      subtext: "No credit card required • Instant access",
-      tagline: "Test-drive the full ZenMonk operating system with zero commitment.",
-      popular: false,
-      features: [
-        "14-day complete platform exploration",
-        "Instant branded storefront (slug.salon.com)",
-        "Smart appointment scheduler & calendar",
-        "Walk-in booking & customer management",
-        "Basic service categories & staff setup",
-        "Stripe card deposit capability",
-      ],
-      ctaText: "Start Free Trial",
-      ctaUrl: getManagementAppUrl("/signup"),
-      isDemo: false,
-    },
-    {
-      id: "monthly",
-      name: "Monthly Plan",
-      badge: "Pay As You Go",
-      priceDisplay: "₹2,499",
-      periodDisplay: "/ month",
-      subtext: "Billed monthly • Cancel or pause anytime",
-      tagline: "Flexible month-to-month subscription for busy salons & spas.",
-      popular: false,
-      features: [
-        "Unlimited client bookings & appointments",
-        "Branded custom storefront (slug.salon.com)",
-        "Walk-in POS invoicing & thermal receipts",
-        "Automated SMS & email appointment alerts",
-        "Staff management, commissions & tips",
-        "Real-time retail inventory depletion",
-        "Daily rolling Stripe Connect payouts",
-      ],
-      ctaText: "Choose Monthly Plan",
-      ctaUrl: getManagementAppUrl("/signup?plan=monthly"),
-      isDemo: false,
-    },
-    {
-      id: "yearly",
-      name: "Yearly Plan",
-      badge: "Best Value • Save ~20%",
-      priceDisplay: "₹24,990",
-      periodDisplay: "/ year",
-      subtext: "Equivalent to ₹2,082/mo • 2 Months Free",
-      tagline: "The most cost-effective plan for salons maximizing long-term revenue.",
-      popular: true,
-      features: [
-        "Everything in Monthly Plan",
-        "Save ₹4,998 every year (2 months free)",
-        "Priority live chat & onboarding concierge",
-        "Free client data migration from legacy tools",
-        "Full POS, inventory & commission tracking",
-        "Unlimited staff & specialist accounts",
-        "Multi-device front desk & mobile sync",
-      ],
-      ctaText: "Choose Yearly Plan",
-      ctaUrl: getManagementAppUrl("/signup?plan=yearly"),
-      isDemo: false,
-    },
-    {
-      id: "enterprise",
-      name: "Enterprise",
-      badge: "Multi-Location",
-      priceDisplay: "Custom",
-      periodDisplay: "tailored pricing",
-      subtext: "Custom contract & SLA for franchises",
-      tagline: "Tailored solutions for salon chains, multi-branch groups & franchises.",
-      popular: false,
-      features: [
-        "Unlimited salon locations & staff chairs",
-        "Multi-branch centralized command dashboard",
-        "Custom domain setup (yourbrand.com)",
-        "Dedicated VIP account manager & staff training",
-        "Custom API integrations & webhook access",
-        "99.98% Enterprise Uptime SLA guarantee",
-      ],
-      ctaText: "Contact Us / VIP Demo",
-      ctaUrl: "#",
-      isDemo: true,
-    },
-  ];
-
+export const Pricing: React.FC<PricingProps> = ({ onOpenDemo }) => {
   return (
     <section id="pricing" className="py-20 lg:py-32 bg-card/40 border-y border-border/80 scroll-mt-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -116,6 +31,10 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenDemo }) =>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
           {plans.map((plan) => {
+            const targetUrl = plan.ctaPath.startsWith("/")
+              ? getManagementAppUrl(plan.ctaPath)
+              : plan.ctaPath;
+
             return (
               <Card
                 key={plan.id}
@@ -185,7 +104,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenDemo }) =>
                       <span>{plan.ctaText}</span>
                     </Button>
                   ) : (
-                    <a href={plan.ctaUrl} className="w-full">
+                    <a href={targetUrl} className="w-full">
                       <Button
                         variant={plan.popular ? "default" : "outline"}
                         size="default"
@@ -215,4 +134,3 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenDemo }) =>
     </section>
   );
 };
-

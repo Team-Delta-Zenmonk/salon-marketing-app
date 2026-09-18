@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createLeadService } from "./create-lead.service";
-import type { CreateLeadPayload, CreateLeadResponse } from "./create-lead.type";
-import { createLeadType } from "./create-lead.type";
+import type { CreateLeadPayload, CreateLeadResponse } from "./create-lead.interface";
+import { createLeadType } from "./create-lead.interface";
 
 export const createLeadAction = createAsyncThunk<
   CreateLeadResponse,

@@ -1,39 +1,13 @@
 import React from "react";
-import { Star, Quote, Sparkles, TrendingUp } from "lucide-react";
+import { Star, Sparkles, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
+import testimonialsData from "@/data/testimonials.json";
+import type { TestimonialItem } from "@/interfaces/testimonial.interface";
 
-export const TestimonialsSection: React.FC = () => {
-  const testimonials = [
-    {
-      name: "Elena Rostova",
-      role: "Founder & Creative Director",
-      salon: "Atelier Luxe Salon • Beverly Hills",
-      metric: "+38% Online Booking Growth",
-      quote:
-        "ZenMonk transformed our front desk. Our high-end clientele expects a flawless digital experience, and having our own custom booking portal at atelier-luxe.salon.com with upfront online deposits eliminated our weekend no-shows entirely.",
-      rating: 5,
-    },
-    {
-      name: "Devon Brooks",
-      role: "Master Barber & Co-Owner",
-      salon: "Crown & Blade Grooming Lounge • Brooklyn",
-      metric: "14 Hours Saved Every Week",
-      quote:
-        "The POS checkout and split-tender billing is incredible. We bundle luxury pomades directly onto the haircut ticket, and inventory counts auto-deplete instantly. My stylists check their daily commission numbers from their phones without bugging management.",
-      rating: 5,
-    },
-    {
-      name: "Camille Dubois",
-      role: "Operations Director",
-      salon: "Savoir Wellness & Spa Group • Miami",
-      metric: "₹3,80,000+ Recovered Revenue",
-      quote:
-        "Managing multiple treatment suites used to be a nightmare of overlapping paper schedules. ZenMonk's smart calendar with automated sanitation buffer times keeps all our estheticians perfectly synchronized across every room.",
-      rating: 5,
-    },
-  ];
+const testimonials: TestimonialItem[] = testimonialsData;
 
+export const Testimonials: React.FC = () => {
   return (
     <section id="proof" className="py-20 lg:py-32 scroll-mt-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -50,9 +24,9 @@ export const TestimonialsSection: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((t, idx) => (
+          {testimonials.map((t) => (
             <Card
-              key={idx}
+              key={t.id || t.name}
               className="flex flex-col justify-between border-border/80 bg-card p-6 sm:p-8 hover:border-primary/40 transition-all duration-300 shadow-sm"
             >
               <div className="space-y-4">

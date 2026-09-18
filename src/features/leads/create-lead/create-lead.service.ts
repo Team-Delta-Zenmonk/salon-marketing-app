@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/config/axios";
-import type { CreateLeadPayload, CreateLeadResponse } from "./create-lead.type";
+import type { CreateLeadPayload, CreateLeadResponse } from "./create-lead.interface";
 
 export const createLeadService = async (
   payload: CreateLeadPayload
