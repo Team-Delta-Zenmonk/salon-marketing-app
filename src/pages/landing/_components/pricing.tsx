@@ -1,19 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Check, Sparkles, ArrowRight, ShieldCheck, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { getManagementAppUrl } from "@/lib/domain";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchSubscriptionPlans } from "@/features/plans/plans.slice";
 import plansData from "@/data/plans.json";
 import type { PlanItem } from "@/interfaces/plan.interface";
 
-const plans: PlanItem[] = plansData;
+const defaultPlans: PlanItem[] = plansData;
 
 interface PricingProps {
   onOpenDemo?: () => void;
 }
 
 export const Pricing: React.FC<PricingProps> = ({ onOpenDemo }) => {
+  const dispatch = useAppDispatch();
+  const { plans: reduxPlans } = useAppSelector((state) => state.plans);
+
+  useEffect(() => {
+    dispatch(fetchSubscriptionPlans());
+  }, [dispatch]);
+
+  const plans = defaultPlans.map((plan) => {
+    const matchedBackend = reduxPlans.find((p) => p.id === plan.id);
+    if (!matchedBackend) return plan;
+
+    return {
+      ...plan,
+      priceDisplay: matchedBackend.formatted_price,
+      periodDisplay: matchedBackend.billing_cycle,
+    };
+  });
   return (
     <section id="pricing" className="py-20 lg:py-32 bg-card/40 border-y border-border/80 scroll-mt-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
