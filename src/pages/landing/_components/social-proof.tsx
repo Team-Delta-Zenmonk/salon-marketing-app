@@ -30,7 +30,7 @@ export const SocialProof: React.FC = () => {
   ];
 
   const brands = [
-    "Atelier Luxe",
+    "Salon Name",
     "Crown & Blade Barbershop",
     "Savoir Hair Studio",
     "The Velvet Room Spa",

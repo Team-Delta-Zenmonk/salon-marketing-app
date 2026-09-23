@@ -97,7 +97,7 @@ export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose }) => {
               name="salon_name"
               control={control}
               label="Salon / Spa Name *"
-              placeholder="e.g. Atelier Luxe"
+              placeholder="e.g. Salon Name"
               maxLength={250}
             />
           </div>

@@ -1,8 +1,20 @@
-import React from "react";
-import { ArrowRight, Calendar, Clock, Sparkles, CheckCircle, ShieldCheck, Users } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { ArrowRight, Sparkles, CheckCircle, ShieldCheck, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { getManagementAppUrl } from "@/lib/domain";
+
+const demoImages = [
+  "/demo-image/Screenshot from 2026-09-23 16-19-22.png",
+  "/demo-image/Screenshot from 2026-09-23 16-19-35.png",
+  "/demo-image/Screenshot from 2026-09-23 16-19-48.png",
+  "/demo-image/Screenshot from 2026-09-23 16-21-42.png",
+  "/demo-image/Screenshot from 2026-09-23 16-21-50.png",
+  "/demo-image/Screenshot from 2026-09-23 16-22-01.png",
+  "/demo-image/Screenshot from 2026-09-23 16-22-19.png",
+  "/demo-image/Screenshot from 2026-09-23 16-22-27.png",
+  "/demo-image/Screenshot from 2026-09-23 16-22-58.png",
+  "/demo-image/Screenshot from 2026-09-23 16-26-07.png",
+];
 
 interface HeroProps {
   onOpenDemo: () => void;
@@ -10,6 +22,24 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onOpenDemo }) => {
   const appName = import.meta.env.VITE_APP_NAME || "Veloura";
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % demoImages.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? demoImages.length - 1 : prev - 1));
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % demoImages.length);
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-32">
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[350px] bg-primary/10 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -85,125 +115,52 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDemo }) => {
               </div>
             </div>
 
-            <div className="p-4 sm:p-6 lg:p-8 space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-lg sm:text-xl font-bold text-foreground">
-                      Aura Luxury Salon & Spa — Live Dashboard
-                    </h3>
-                    <Badge variant="success" className="text-[11px]">
-                      Storefront Active: aura.salon.com
-                    </Badge>
+            <div className="relative group overflow-hidden bg-background">
+              {/* Carousel Images */}
+              <div
+                className="flex transition-transform duration-500 ease-out"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
+                {demoImages.map((src, idx) => (
+                  <div key={idx} className="w-full shrink-0">
+                    <img
+                      src={src}
+                      alt={`Dashboard Screenshot ${idx + 1}`}
+                      className="w-full h-auto object-cover rounded-b-2xl max-h-[600px]"
+                    />
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    Real-time operational summary • Automated payouts active
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg bg-primary/10 text-primary border border-primary/20">
-                    <Calendar className="h-3.5 w-3.5" />
-                    <span>Today, Sept 17</span>
-                  </span>
-                </div>
+                ))}
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5">
-                <div className="p-3.5 rounded-2xl bg-muted/30 border border-border">
-                  <div className="text-[11px] font-semibold text-muted-foreground">Total Bookings</div>
-                  <div className="text-xl sm:text-2xl font-bold text-foreground mt-1">156</div>
-                  <div className="text-[10px] text-emerald-600 font-semibold mt-0.5">↑ +12.5% this month</div>
-                </div>
+              {/* Navigation Arrows */}
+              <button
+                onClick={prevSlide}
+                aria-label="Previous slide"
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/80 hover:bg-background border border-border text-foreground flex items-center justify-center shadow-lg transition-all opacity-80 hover:opacity-100 cursor-pointer"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
 
-                <div className="p-3.5 rounded-2xl bg-muted/30 border border-border">
-                  <div className="text-[11px] font-semibold text-muted-foreground">Total Customers</div>
-                  <div className="text-xl sm:text-2xl font-bold text-foreground mt-1">892</div>
-                  <div className="text-[10px] text-emerald-600 font-semibold mt-0.5">↑ +8.2% new clients</div>
-                </div>
+              <button
+                onClick={nextSlide}
+                aria-label="Next slide"
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/80 hover:bg-background border border-border text-foreground flex items-center justify-center shadow-lg transition-all opacity-80 hover:opacity-100 cursor-pointer"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
 
-                <div className="p-3.5 rounded-2xl bg-primary/5 border border-primary/20">
-                  <div className="text-[11px] font-semibold text-muted-foreground">Today's Revenue</div>
-                  <div className="text-xl sm:text-2xl font-bold text-primary mt-1 font-mono">₹45,230</div>
-                  <div className="text-[10px] text-emerald-600 font-semibold mt-0.5">↑ +18.1% vs avg</div>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-muted/30 border border-border">
-                  <div className="text-[11px] font-semibold text-muted-foreground">Avg. Ticket Size</div>
-                  <div className="text-xl sm:text-2xl font-bold text-foreground mt-1 font-mono">₹290</div>
-                  <div className="text-[10px] text-emerald-600 font-semibold mt-0.5">↑ +4.3% retail upsell</div>
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-border bg-background overflow-hidden">
-                <div className="px-4 py-3 border-b border-border/80 bg-muted/30 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-primary" />
-                    <span className="text-xs font-bold text-foreground">Today's Live Appointment Queue</span>
-                  </div>
-                  <span className="text-[10px] font-medium text-muted-foreground">
-                    18 Total Bookings Today
-                  </span>
-                </div>
-
-                <div className="divide-y divide-border/60 text-xs">
-                  <div className="p-3 sm:px-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-muted/20 transition-colors">
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-full bg-primary/15 text-primary flex items-center justify-center font-bold text-xs">
-                        AS
-                      </div>
-                      <div>
-                        <div className="font-bold text-foreground">Aarav Sharma</div>
-                        <div className="text-[11px] text-muted-foreground">Classic Haircut & Beard Sculpt • Jessica Taylor</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4 self-end sm:self-auto">
-                      <span className="font-mono font-bold text-foreground">₹550</span>
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/25">
-                        ● In Chair (10:30 AM)
-                      </span>
-                      <span className="text-[10px] text-muted-foreground hidden md:inline">Paid via Card</span>
-                    </div>
-                  </div>
-
-                  <div className="p-3 sm:px-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-muted/20 transition-colors">
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-full bg-emerald-500/15 text-emerald-700 flex items-center justify-center font-bold text-xs">
-                        PP
-                      </div>
-                      <div>
-                        <div className="font-bold text-foreground">Priya Patel</div>
-                        <div className="text-[11px] text-muted-foreground">Global Color & Balayage • David Smith</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4 self-end sm:self-auto">
-                      <span className="font-mono font-bold text-foreground">₹2,800</span>
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25">
-                        ● Confirmed (11:45 AM)
-                      </span>
-                      <span className="text-[10px] text-muted-foreground hidden md:inline">Deposit Received</span>
-                    </div>
-                  </div>
-
-                  <div className="p-3 sm:px-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-muted/20 transition-colors">
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-full bg-blue-500/15 text-blue-700 flex items-center justify-center font-bold text-xs">
-                        AI
-                      </div>
-                      <div>
-                        <div className="font-bold text-foreground">Ananya Iyer</div>
-                        <div className="text-[11px] text-muted-foreground">Deluxe Gel Manicure • Sophia Loren</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4 self-end sm:self-auto">
-                      <span className="font-mono font-bold text-foreground">₹950</span>
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/15 text-blue-700 dark:text-blue-400 border border-blue-500/25">
-                        ● Completed
-                      </span>
-                      <span className="text-[10px] text-muted-foreground hidden md:inline">Paid via UPI</span>
-                    </div>
-                  </div>
-                </div>
+              {/* Dots Indicator */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-background/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-border/60 shadow-md">
+                {demoImages.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentSlide(idx)}
+                    aria-label={`Go to slide ${idx + 1}`}
+                    className={`h-2 rounded-full transition-all cursor-pointer ${
+                      currentSlide === idx ? "w-6 bg-primary" : "w-2 bg-muted-foreground/40 hover:bg-muted-foreground"
+                    }`}
+                  />
+                ))}
               </div>
             </div>
           </div>
