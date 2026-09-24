@@ -44,7 +44,7 @@ export function Modal({
 
       <div
         className={cn(
-          "relative w-full max-w-lg rounded-2xl sm:rounded-3xl border border-border bg-background p-4 sm:p-6 shadow-2xl z-10 transition-all animate-in zoom-in-95 duration-200 my-auto h-auto max-h-[calc(100vh-2rem)] max-h-[calc(100dvh-2rem)] flex flex-col overflow-hidden",
+          "relative w-full max-w-lg rounded-2xl sm:rounded-xl border border-border bg-background p-4 sm:p-6 shadow-2xl z-10 transition-all animate-in zoom-in-95 duration-200 my-auto h-auto max-h-[calc(100vh-2rem)] max-h-[calc(100dvh-2rem)] flex flex-col overflow-hidden",
           className
         )}
       >

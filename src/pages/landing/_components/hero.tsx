@@ -98,7 +98,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDemo }) => {
           </div>
         </div>
 
-        <div className="mt-14 sm:mt-18 relative mx-auto max-w-5xl rounded-3xl p-3 sm:p-4 bg-gradient-to-b from-border/70 to-border/30 border border-border shadow-2xl">
+        <div className="mt-14 sm:mt-18 relative mx-auto max-w-5xl rounded-xl p-3 sm:p-4 bg-gradient-to-b from-border/70 to-border/30 border border-border shadow-2xl">
           <div className="rounded-2xl bg-card border border-border/70 overflow-hidden shadow-inner">
             <div className="flex items-center justify-between border-b border-border/80 bg-muted/40 px-4 py-3">
               <div className="flex items-center gap-2">

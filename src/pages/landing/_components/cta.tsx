@@ -12,7 +12,7 @@ export const Cta: React.FC<CtaProps> = ({ onOpenDemo }) => {
   return (
     <section className="relative overflow-hidden py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl bg-gradient-to-br from-primary/15 via-card to-background border border-primary/30 p-8 sm:p-12 lg:p-16 text-center shadow-2xl overflow-hidden">
+        <div className="relative rounded-xl bg-gradient-to-br from-primary/15 via-card to-background border border-primary/30 p-8 sm:p-12 lg:p-16 text-center shadow-2xl overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] bg-primary/20 rounded-full blur-3xl pointer-events-none -z-10" />
 
           <div className="max-w-3xl mx-auto space-y-6">

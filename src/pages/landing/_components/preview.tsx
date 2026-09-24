@@ -47,7 +47,7 @@ export const Preview: React.FC = () => {
           </div>
         </div>
 
-        <div className="relative mx-auto max-w-5xl rounded-3xl border border-border/80 bg-card p-4 sm:p-8 shadow-xl">
+        <div className="relative mx-auto max-w-5xl rounded-xl border border-border/80 bg-card p-4 sm:p-8 shadow-xl">
           {viewMode === "admin" ? (
             <div className="space-y-6 animate-in fade-in duration-300">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border">
@@ -127,7 +127,7 @@ export const Preview: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                <div className="md:col-span-1 mx-auto w-full max-w-[280px] rounded-3xl border-4 border-border/80 bg-background p-4 shadow-xl space-y-3">
+                <div className="md:col-span-1 mx-auto w-full max-w-[280px] rounded-xl border-4 border-border/80 bg-background p-4 shadow-xl space-y-3">
                   <div className="text-center pb-2 border-b border-border/70">
                     <div className="text-xs font-bold text-foreground">Glow Hair & Spa</div>
                     <div className="text-[10px] text-muted-foreground">glow.salon.com</div>

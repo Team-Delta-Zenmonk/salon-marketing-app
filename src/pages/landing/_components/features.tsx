@@ -48,7 +48,7 @@ export const Features: React.FC = () => {
           })}
         </div>
 
-        <div className="rounded-3xl border border-border bg-card p-6 sm:p-10 lg:p-12 shadow-sm transition-all animate-in fade-in duration-300">
+        <div className="rounded-xl border border-border bg-card p-6 sm:p-10 lg:p-12 shadow-sm transition-all animate-in fade-in duration-300">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className="lg:col-span-7 space-y-6">
               <div className="flex items-center gap-3">
