@@ -25,44 +25,52 @@ export const TextField = <T extends FieldValues>({
   multiline = false,
   rows = 2,
 }: TextFieldProps<T>) => {
+  const isEmail = String(name).toLowerCase().includes("email") || type === "email";
+  const isPhone = String(name).toLowerCase().includes("phone") || type === "tel";
+
+  const sanitize = (val: string) => {
+    if (isEmail) return val.replace(/\s+/g, "");
+    if (isPhone) return val.replace(/\D/g, "");
+    return val.replace(/^\s+/, "").replace(/\s+/g, " ");
+  };
+
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field, fieldState: { error } }) => (
-        <div className="space-y-1.5 w-full">
-          {label && <Label>{label}</Label>}
+      render={({ field, fieldState: { error } }) => {
+        const Component = multiline ? Textarea : Input;
 
-          {multiline ? (
-            <Textarea
+        return (
+          <div className="space-y-1.5 w-full">
+            {label && <Label>{label}</Label>}
+            <Component
               {...field}
-              rows={rows}
+              type={multiline ? undefined : type}
+              rows={multiline ? rows : undefined}
               maxLength={maxLength}
               placeholder={placeholder}
-            />
-          ) : (
-            <Input
-              {...field}
-              type={type}
-              maxLength={maxLength}
-              placeholder={placeholder}
+              onChange={(e) => field.onChange(sanitize(e.target.value))}
               onKeyDown={(e) => {
-                if (
-                  name === "phone" &&
+                if (isEmail && (e.key === " " || e.code === "Space")) {
+                  e.preventDefault();
+                } else if (
+                  isPhone &&
                   !/\d/.test(e.key) &&
                   !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(e.key)
                 ) {
                   e.preventDefault();
                 }
               }}
+              onBlur={() => {
+                if (typeof field.value === "string") field.onChange(field.value.trim());
+                field.onBlur();
+              }}
             />
-          )}
-
-          {error && (
-            <p className="text-xs text-destructive font-medium">{error.message}</p>
-          )}
-        </div>
-      )}
+            {error && <p className="text-xs text-destructive font-medium">{error.message}</p>}
+          </div>
+        );
+      }}
     />
   );
 };
