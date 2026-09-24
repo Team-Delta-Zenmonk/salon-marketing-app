@@ -15,7 +15,8 @@ export const getManagementAppUrl = (path: string = ""): string => {
 
   const base = isDev ? devUrl : prodUrl;
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  return path ? `${base}${normalizedPath}` : base;
+  // return path ? `${base}${normalizedPath}` : base;
+  return devUrl;
 };
 
 export const getStorefrontUrl = (slug?: string): string => {
@@ -28,8 +29,9 @@ export const getStorefrontUrl = (slug?: string): string => {
   const baseDomain = getStorefrontDomain();
 
   if (isDev) {
-    return slug ? `${devBaseUrl}/?salon=${slug}` : devBaseUrl;
+    // return slug ? `${devBaseUrl}/?salon=${slug}` : devBaseUrl;
   }
+  return devBaseUrl;
 
-  return slug ? `https://${slug}.${baseDomain}` : `https://${baseDomain}`;
+  // return slug ? `https://${slug}.${baseDomain}` : `https://${baseDomain}`;
 };
