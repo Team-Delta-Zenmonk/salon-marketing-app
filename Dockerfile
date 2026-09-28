@@ -1,25 +1,28 @@
-# ---- Build Stage ----
-FROM node:20-alpine AS builder
+FROM node:20-alpine AS base
+
+FROM base AS builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
-
-# Install dependencies
 COPY package.json package-lock.json* ./
 RUN npm ci && npm cache clean --force
-
-# Copy source and build
 COPY . .
 RUN npm run build && npm prune --omit-dev
 
-# ---- Production Stage ----
-FROM nginx:stable-alpine AS runner
+FROM base AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+COPY --from=builder /app/public ./public
 
-# Copy custom nginx config
-COPY etc/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
 
-# Copy built assets from builder
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+USER nextjs
+ENV PORT=3004
+EXPOSE $PORT
+ENV HOSTNAME="0.0.0.0"
 
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "server.js"]

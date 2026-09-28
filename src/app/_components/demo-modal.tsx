@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,21 +11,27 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   createLeadAction,
   resetLeadState,
+  closeDemoModal,
   createLeadSchema,
   type CreateLeadFormValues,
 } from "@/features/leads";
 
 interface DemoModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
-export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose }) => {
-  const appName = import.meta.env.VITE_APP_NAME || "Veloura";
+export const DemoModal: React.FC<DemoModalProps> = ({
+  isOpen: propIsOpen,
+  onClose: propOnClose,
+}) => {
+  const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
   const dispatch = useAppDispatch();
-  const { isSubmitting, isSuccess, successMessage, error } = useAppSelector(
+  const { isSubmitting, isSuccess, successMessage, error, isDemoModalOpen } = useAppSelector(
     (state) => state.leads
   );
+
+  const isOpen = propIsOpen !== undefined ? propIsOpen : isDemoModalOpen;
 
   const { control, handleSubmit, reset } = useForm<CreateLeadFormValues>({
     resolver: zodResolver(createLeadSchema),
@@ -42,8 +50,11 @@ export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose }) => {
 
   const handleClose = () => {
     dispatch(resetLeadState());
+    dispatch(closeDemoModal());
     reset();
-    onClose();
+    if (propOnClose) {
+      propOnClose();
+    }
   };
 
   return (
@@ -63,14 +74,14 @@ export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose }) => {
             <CheckCircle2 className="h-8 w-8" />
           </div>
           <h3 className="text-2xl font-bold text-foreground">
-            We've Received Your Request!
+            We&apos;ve Received Your Request!
           </h3>
           <p className="text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
             {successMessage ||
               "One of our dedicated salon advisors will reach out within 2 business hours to coordinate your live walkthrough."}
           </p>
           <div className="pt-4">
-            <Button onClick={handleClose} className="w-full justify-center">
+            <Button onClick={handleClose} className="w-full justify-center cursor-pointer">
               Close & Continue Exploring
             </Button>
           </div>
@@ -137,7 +148,7 @@ export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose }) => {
               type="submit"
               disabled={isSubmitting}
               size="lg"
-              className="w-full justify-center font-bold gap-2"
+              className="w-full justify-center font-bold gap-2 cursor-pointer"
             >
               {isSubmitting ? (
                 <>
@@ -160,3 +171,5 @@ export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose }) => {
     </Modal>
   );
 };
+
+export default DemoModal;

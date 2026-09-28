@@ -6,6 +6,7 @@ export interface LeadsState {
   isSuccess: boolean;
   successMessage: string | null;
   error: string | null;
+  isDemoModalOpen: boolean;
 }
 
 const initialState: LeadsState = {
@@ -13,17 +14,25 @@ const initialState: LeadsState = {
   isSuccess: false,
   successMessage: null,
   error: null,
+  isDemoModalOpen: false,
 };
 
 export const leadsSlice = createSlice({
   name: "leads",
   initialState,
   reducers: {
+    openDemoModal(state) {
+      state.isDemoModalOpen = true;
+    },
+    closeDemoModal(state) {
+      state.isDemoModalOpen = false;
+    },
     resetLeadState(state) {
       state.isSubmitting = false;
       state.isSuccess = false;
       state.successMessage = null;
       state.error = null;
+      state.isDemoModalOpen = false;
     },
   },
   extraReducers: (builder) => {
@@ -46,5 +55,5 @@ export const leadsSlice = createSlice({
   },
 });
 
-export const { resetLeadState } = leadsSlice.actions;
+export const { openDemoModal, closeDemoModal, resetLeadState } = leadsSlice.actions;
 export default leadsSlice.reducer;

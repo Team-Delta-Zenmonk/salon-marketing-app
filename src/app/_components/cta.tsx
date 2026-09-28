@@ -1,14 +1,12 @@
 import React from "react";
 import { ArrowRight, Sparkles, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { OpenDemoButton } from "@/components/open-demo-button";
 import { getManagementAppUrl } from "@/lib/domain";
 
-interface CtaProps {
-  onOpenDemo: () => void;
-}
+export const Cta: React.FC = () => {
+  const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
 
-export const Cta: React.FC<CtaProps> = ({ onOpenDemo }) => {
-  const appName = import.meta.env.VITE_APP_NAME || "Veloura";
   return (
     <section className="relative overflow-hidden py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -24,29 +22,28 @@ export const Cta: React.FC<CtaProps> = ({ onOpenDemo }) => {
             </div>
 
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground text-balance">
-              Transform Your Salon's Growth Today.
+              Transform Your Salon&apos;s Growth Today.
             </h2>
 
             <p className="text-base sm:text-lg text-muted-foreground leading-relaxed text-balance">
-              Join over 500+ forward-thinking salon owners who replaced messy spreadsheets and missed appointments with {appName}'s unified operating system.
+              Join over 500+ forward-thinking salon owners who replaced messy spreadsheets and missed appointments with {appName}&apos;s unified operating system.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
               <a href={getManagementAppUrl("/signup")} className="w-full sm:w-auto">
-                <Button size="xl" className="w-full sm:w-auto font-bold gap-2 group text-base shadow-lg shadow-primary/25">
+                <Button size="xl" className="w-full sm:w-auto font-bold gap-2 group text-base shadow-lg shadow-primary/25 cursor-pointer">
                   <span>Start 14-Day Free Trial</span>
                   <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </a>
 
-              <Button
+              <OpenDemoButton
                 variant="outline"
                 size="xl"
-                onClick={onOpenDemo}
-                className="w-full sm:w-auto text-base font-semibold"
+                className="w-full sm:w-auto text-base font-semibold cursor-pointer"
               >
                 Schedule VIP Demo
-              </Button>
+              </OpenDemoButton>
             </div>
 
             <div className="flex items-center justify-center gap-2 pt-2 text-xs font-medium text-muted-foreground">
@@ -59,3 +56,5 @@ export const Cta: React.FC<CtaProps> = ({ onOpenDemo }) => {
     </section>
   );
 };
+
+export default Cta;

@@ -29,6 +29,5 @@ export const createLeadSchema = z.object({
 
 export type CreateLeadFormValues = z.infer<typeof createLeadSchema>;
 
-// Aliases for compatibility
 export const demoFormSchema = createLeadSchema;
 export type DemoFormValues = CreateLeadFormValues;

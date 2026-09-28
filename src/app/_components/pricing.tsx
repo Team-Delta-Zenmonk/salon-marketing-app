@@ -1,38 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Check, Sparkles, ArrowRight, ShieldCheck, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { OpenDemoButton } from "@/components/open-demo-button";
 import { getManagementAppUrl } from "@/lib/domain";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchSubscriptionPlans } from "@/features/plans/plans.slice";
 import plansData from "@/data/plans.json";
 import type { PlanItem } from "@/interfaces/plan.interface";
 
 const defaultPlans: PlanItem[] = plansData;
 
-interface PricingProps {
-  onOpenDemo?: () => void;
-}
-
-export const Pricing: React.FC<PricingProps> = ({ onOpenDemo }) => {
-  const dispatch = useAppDispatch();
-  const { plans: reduxPlans } = useAppSelector((state) => state.plans);
-
-  useEffect(() => {
-    dispatch(fetchSubscriptionPlans());
-  }, [dispatch]);
-
-  const plans = defaultPlans.map((plan) => {
-    const matchedBackend = reduxPlans.find((p) => p.id === plan.id);
-    if (!matchedBackend) return plan;
-
-    return {
-      ...plan,
-      priceDisplay: matchedBackend.formatted_price,
-      periodDisplay: matchedBackend.billing_cycle,
-    };
-  });
+export const Pricing: React.FC = () => {
   return (
     <section id="pricing" className="py-20 lg:py-32 bg-card/40 border-y border-border/80 scroll-mt-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -49,7 +27,7 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenDemo }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-          {plans.map((plan) => {
+          {defaultPlans.map((plan) => {
             const targetUrl = plan.ctaPath.startsWith("/")
               ? getManagementAppUrl(plan.ctaPath)
               : plan.ctaPath;
@@ -113,21 +91,20 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenDemo }) => {
 
                 <CardFooter className="pt-0">
                   {plan.isDemo ? (
-                    <Button
+                    <OpenDemoButton
                       variant="outline"
                       size="default"
-                      onClick={onOpenDemo}
-                      className="w-full justify-center font-bold gap-2 text-xs"
+                      className="w-full justify-center font-bold gap-2 text-xs cursor-pointer"
                     >
                       <PhoneCall className="h-3.5 w-3.5" />
                       <span>{plan.ctaText}</span>
-                    </Button>
+                    </OpenDemoButton>
                   ) : (
                     <a href={targetUrl} className="w-full">
                       <Button
                         variant={plan.popular ? "default" : "outline"}
                         size="default"
-                        className="w-full justify-center font-bold gap-1.5 text-xs group"
+                        className="w-full justify-center font-bold gap-1.5 text-xs group cursor-pointer"
                       >
                         <span>{plan.ctaText}</span>
                         <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -153,3 +130,5 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenDemo }) => {
     </section>
   );
 };
+
+export default Pricing;

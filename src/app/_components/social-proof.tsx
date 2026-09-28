@@ -85,3 +85,5 @@ export const SocialProof: React.FC = () => {
     </section>
   );
 };
+
+export default SocialProof;

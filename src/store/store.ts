@@ -7,12 +7,13 @@ const rootReducer = combineReducers({
   plans: plansReducer,
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
+export const makeStore = () => {
+  return configureStore({
+    reducer: rootReducer,
+    devTools: process.env.NODE_ENV !== "production",
+  });
+};
 
-export const store = configureStore({
-  reducer: rootReducer,
-  devTools: process.env.NODE_ENV !== "production",
-});
-
-export type AppStore = typeof store;
-export type AppDispatch = typeof store.dispatch;
+export type AppStore = ReturnType<typeof makeStore>;
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];

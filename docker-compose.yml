@@ -24,5 +24,3 @@ networks:
   salon_management_shared_network:
     name: salon_management_shared_network
     external: true
-
-#docker network create salon_management_shared_network

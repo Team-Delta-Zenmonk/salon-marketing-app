@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { Calculator, Clock, DollarSign, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,7 +11,7 @@ export const RoiCalculator: React.FC = () => {
   const [stylists, setStylists] = useState<number>(5);
   const [appointmentsPerDay, setAppointmentsPerDay] = useState<number>(6);
   const [avgTicket, setAvgTicket] = useState<number>(650);
-  const appName = import.meta.env.VITE_APP_NAME || "Veloura";
+  const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
 
   const workingDays = 26;
   const totalMonthlyAppointments = stylists * appointmentsPerDay * workingDays;
@@ -32,7 +34,7 @@ export const RoiCalculator: React.FC = () => {
             <Calculator className="h-3 w-3 mr-1" /> Interactive Growth Model
           </Badge>
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-foreground text-balance">
-            Calculate Your Salon's Revenue Potential in Rupees (₹).
+            Calculate Your Salon&apos;s Revenue Potential in Rupees (₹).
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed text-balance">
             See how much time your team saves and how much lost no-show revenue you recover every month with {appName}.
@@ -156,7 +158,7 @@ export const RoiCalculator: React.FC = () => {
 
               <div className="pt-4 border-t border-border">
                 <a href={getManagementAppUrl("/signup")}>
-                  <Button size="lg" className="w-full justify-center font-bold gap-2 group">
+                  <Button size="lg" className="w-full justify-center font-bold gap-2 group cursor-pointer">
                     <span>Unlock This Growth — Start Free Trial</span>
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
@@ -172,3 +174,5 @@ export const RoiCalculator: React.FC = () => {
     </section>
   );
 };
+
+export default RoiCalculator;

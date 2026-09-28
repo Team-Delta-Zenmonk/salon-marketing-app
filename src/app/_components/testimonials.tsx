@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import testimonialsData from "@/data/testimonials.json";
 import type { TestimonialItem } from "@/interfaces/testimonial.interface";
 
-const appName = import.meta.env.VITE_APP_NAME || "Veloura";
+const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
 const testimonials: TestimonialItem[] = testimonialsData.map((t) => {
   return {
     ...t,
@@ -49,7 +49,7 @@ export const Testimonials: React.FC = () => {
                 </div>
 
                 <p className="text-sm text-muted-foreground leading-relaxed italic">
-                  "{t.quote}"
+                  &ldquo;{t.quote}&rdquo;
                 </p>
               </div>
 
@@ -70,3 +70,5 @@ export const Testimonials: React.FC = () => {
     </section>
   );
 };
+
+export default Testimonials;

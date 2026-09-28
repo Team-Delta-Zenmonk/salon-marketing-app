@@ -4,7 +4,7 @@ import { getManagementAppUrl, getStorefrontDomain } from "@/lib/domain";
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  const appName = import.meta.env.VITE_APP_NAME || "Veloura";
+  const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
 
   return (
     <footer className="border-t border-border/80 bg-card/60 text-card-foreground overflow-hidden">

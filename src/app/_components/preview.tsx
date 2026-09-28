@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { Laptop, Smartphone, Check, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -24,7 +26,7 @@ export const Preview: React.FC = () => {
           <div className="inline-flex items-center p-1.5 rounded-2xl bg-card border border-border shadow-xs mt-4">
             <button
               onClick={() => setViewMode("admin")}
-              className={`flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all ${
+              className={`flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                 viewMode === "admin"
                   ? "bg-primary text-primary-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
@@ -35,7 +37,7 @@ export const Preview: React.FC = () => {
             </button>
             <button
               onClick={() => setViewMode("storefront")}
-              className={`flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all ${
+              className={`flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                 viewMode === "storefront"
                   ? "bg-primary text-primary-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
@@ -70,7 +72,7 @@ export const Preview: React.FC = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div className="p-4 rounded-2xl bg-background border border-border">
-                  <div className="text-xs text-muted-foreground">Today's Revenue</div>
+                  <div className="text-xs text-muted-foreground">Today&apos;s Revenue</div>
                   <div className="text-2xl font-bold text-foreground mt-1">₹24,100.00</div>
                   <div className="text-[10px] text-emerald-600 font-medium mt-1">↑ 18% vs last Wednesday</div>
                 </div>
@@ -180,3 +182,5 @@ export const Preview: React.FC = () => {
     </section>
   );
 };
+
+export default Preview;

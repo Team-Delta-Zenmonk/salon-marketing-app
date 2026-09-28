@@ -1,4 +1,7 @@
+"use client";
+
 import React, { useState } from "react";
+import Image from "next/image";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getManagementAppUrl } from "@/lib/domain";
@@ -20,12 +23,19 @@ export const Header: React.FC = () => {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="#" className="flex items-center gap-2.5 group">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 overflow-hidden border border-border/40 shadow-sm group-hover:scale-105 transition-transform">
-            <img src="/management-icon.png" alt="Management Logo" className="h-full w-full object-cover" />
+            <Image
+              src="/management-icon.png"
+              alt="Management Logo"
+              width={40}
+              height={40}
+              priority
+              className="h-full w-full object-cover"
+            />
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
               <span className="text-xl font-bold tracking-tight text-foreground font-sans">
-                {import.meta.env.VITE_APP_NAME || "Veloura"}
+                {process.env.NEXT_PUBLIC_APP_NAME || "Veloura"}
               </span>
               <span className="h-1.5 w-1.5 rounded-full bg-primary" />
             </div>

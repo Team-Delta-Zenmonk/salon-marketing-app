@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { Sparkles, CheckCircle2, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -35,7 +37,7 @@ export const Features: React.FC = () => {
               <button
                 key={idx}
                 onClick={() => setActiveTab(idx)}
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all ${
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all cursor-pointer ${
                   isActive
                     ? "bg-primary text-primary-foreground shadow-md glow-orange-subtle scale-102"
                     : "bg-card border border-border text-muted-foreground hover:text-foreground hover:bg-muted/60"
@@ -96,3 +98,5 @@ export const Features: React.FC = () => {
     </section>
   );
 };
+
+export default Features;

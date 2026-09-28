@@ -1,10 +1,12 @@
+"use client";
+
 import React, { useState } from "react";
 import { ChevronDown, HelpCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import faqsData from "@/data/faqs.json";
 import type { FaqItem } from "@/interfaces/faq.interface";
 
-const appName = import.meta.env.VITE_APP_NAME || "Veloura";
+const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
 const faqs: FaqItem[] = faqsData.map((faq) => {
   return {
     ...faq,
@@ -45,7 +47,7 @@ export const Faq: React.FC = () => {
               >
                 <button
                   onClick={() => toggle(i)}
-                  className="w-full flex items-center justify-between p-5 sm:p-6 text-left focus:outline-none"
+                  className="w-full flex items-center justify-between p-5 sm:p-6 text-left focus:outline-none cursor-pointer"
                 >
                   <span className="text-base sm:text-lg font-semibold text-foreground pr-4">
                     {faq.q}
@@ -72,3 +74,5 @@ export const Faq: React.FC = () => {
     </section>
   );
 };
+
+export default Faq;
