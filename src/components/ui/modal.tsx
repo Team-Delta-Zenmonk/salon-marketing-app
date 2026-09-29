@@ -3,14 +3,21 @@
 import * as React from "react";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {useEffect} from "react";
+
+export type ModalCloseReason = "backdropClick" | "escapeKeyDown" | "closeButton";
 
 interface ModalProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: (
+    event?: React.SyntheticEvent | KeyboardEvent,
+    reason?: ModalCloseReason
+  ) => void;
   title?: string;
   description?: string;
   children: React.ReactNode;
   className?: string;
+  disabled?: boolean;
 }
 
 export function Modal({
@@ -20,39 +27,67 @@ export function Modal({
   description,
   children,
   className,
+  disabled = false,
 }: ModalProps) {
-  React.useEffect(() => {
+  const titleId = React.useId();
+  const descriptionId = React.useId();
+
+  const onCloseRef = React.useRef(onClose);
+  onCloseRef.current = onClose;
+
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onCloseRef.current(e, "escapeKeyDown");
+      }
     };
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKeyDown);
-    }
+
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = originalOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-hidden">
       <div
-        className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity animate-in fade-in"
-        onClick={onClose}
+        aria-hidden="true"
+        className={cn(
+          "fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity animate-in fade-in",
+          disabled ? "cursor-default" : "cursor-pointer"
+        )}
+        onClick={(e) => onClose(e, "backdropClick")}
       />
 
+
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
+        aria-describedby={description ? descriptionId : undefined}
         className={cn(
           "relative w-full max-w-lg rounded-2xl sm:rounded-xl border border-border bg-background p-4 sm:p-6 shadow-2xl z-10 transition-all animate-in zoom-in-95 duration-200 my-auto h-auto max-h-[calc(100vh-2rem)] max-h-[calc(100dvh-2rem)] flex flex-col overflow-hidden",
           className
         )}
       >
         <button
-          onClick={onClose}
-          className="absolute right-3 top-3 sm:right-4 sm:top-4 rounded-full p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors shrink-0 z-20 bg-background/80 backdrop-blur-xs"
+          type="button"
+          onClick={(e) => onClose(e, "closeButton")}
+          disabled={disabled}
+          aria-disabled={disabled}
+          aria-label="Close"
+          className={cn(
+            "absolute right-3 top-3 sm:right-4 sm:top-4 rounded-full p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors shrink-0 z-20 bg-background/80 backdrop-blur-xs",
+            disabled ? "opacity-30 cursor-not-allowed pointer-events-none" : "cursor-pointer"
+          )}
         >
           <X className="h-5 w-5" />
           <span className="sr-only">Close</span>
@@ -61,12 +96,12 @@ export function Modal({
         {(title || description) && (
           <div className="mb-3 sm:mb-4 space-y-1 pr-8 shrink-0">
             {title && (
-              <h2 className="text-base sm:text-xl font-semibold tracking-tight text-foreground">
+              <h2 id={titleId} className="text-base sm:text-xl font-semibold tracking-tight text-foreground">
                 {title}
               </h2>
             )}
             {description && (
-              <p className="text-xs text-muted-foreground leading-relaxed">
+              <p id={descriptionId} className="text-xs text-muted-foreground leading-relaxed">
                 {description}
               </p>
             )}

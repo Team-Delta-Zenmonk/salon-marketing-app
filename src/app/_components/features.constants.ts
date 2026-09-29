@@ -68,24 +68,6 @@ export const FEATURE_PILLARS: Pillar[] = [
     },
   },
   {
-    title: "Staff Commissions & Performance",
-    tag: "Happy Stylists, Zero Math",
-    desc: "Eliminate end-of-month payroll headaches. Set custom tiered commission rates for service revenue versus product retail sales, track stylist hours, and monitor individual rebooking rates.",
-    icon: Users,
-    bullets: [
-      "Tiered commission rules per service category",
-      "Individual staff login portals with privacy bounds",
-      "Real-time daily tip calculations",
-      "Automated commission summary reports",
-    ],
-    preview: {
-      staff: "Elena Alvarez",
-      monthRevenue: "₹1,48,200",
-      commission: "42% (₹62,244)",
-      rebookRate: "78% Client Retention",
-    },
-  },
-  {
     title: "Inventory Intelligence & Low-Stock Alerts",
     tag: "Never Run Out of Color",
     desc: "Keep retail shelves and backbar color supplies fully stocked. Product quantities automatically deplete when added to client invoices or backbar treatment logs, alerting you before you run out.",

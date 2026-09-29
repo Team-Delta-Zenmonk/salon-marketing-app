@@ -1,6 +1,7 @@
 import React from "react";
-import { Sparkles, ShieldCheck, Lock, Activity } from "lucide-react";
+import { ShieldCheck, Lock, Activity } from "lucide-react";
 import { getManagementAppUrl, getStorefrontDomain } from "@/lib/domain";
+import Image from "next/image";
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -13,7 +14,14 @@ export const Footer: React.FC = () => {
           <div className="sm:col-span-2 space-y-4 sm:space-y-5">
             <div className="flex items-center gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-xs">
-                <Sparkles className="h-4 w-4" />
+                <Image
+                  src="/management-icon.png"
+                  alt="Management Logo"
+                  width={40}
+                  height={40}
+                  priority
+                  className="h-full w-full object-cover"
+                />
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="text-xl font-bold tracking-tight text-foreground font-sans">
@@ -46,7 +54,6 @@ export const Footer: React.FC = () => {
               <li><a href="#features" className="hover:text-foreground transition-colors">Smart Scheduler</a></li>
               <li><a href="#features" className="hover:text-foreground transition-colors">Client Storefronts</a></li>
               <li><a href="#features" className="hover:text-foreground transition-colors">POS & Invoicing</a></li>
-              <li><a href="#features" className="hover:text-foreground transition-colors">Staff & Commissions</a></li>
               <li><a href="#features" className="hover:text-foreground transition-colors">Inventory Tracking</a></li>
               <li><a href="#pricing" className="hover:text-foreground transition-colors">Pricing & Plans</a></li>
             </ul>

@@ -15,7 +15,14 @@ export interface TextFieldProps<T extends FieldValues> {
   maxLength?: number;
   multiline?: boolean;
   rows?: number;
+  pattern?: RegExp;
+  identifier?: string;
 }
+
+const matchesPattern = (pattern: RegExp, value: string) => {
+  pattern.lastIndex = 0;
+  return pattern.test(value);
+};
 
 export const TextField = <T extends FieldValues>({
   name,
@@ -26,6 +33,8 @@ export const TextField = <T extends FieldValues>({
   maxLength,
   multiline = false,
   rows = 2,
+  pattern,
+  identifier,
 }: TextFieldProps<T>) => {
   const isEmail = String(name).toLowerCase().includes("email") || type === "email";
   const isPhone = String(name).toLowerCase().includes("phone") || type === "tel";
@@ -43,21 +52,50 @@ export const TextField = <T extends FieldValues>({
       render={({ field, fieldState: { error } }) => {
         const Component = multiline ? Textarea : Input;
 
+        const handleBeforeInput = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+          const inserted = (e as any).data ?? (e.nativeEvent as InputEvent)?.data;
+          if (!inserted) return;
+
+          const input = e.target as HTMLInputElement | HTMLTextAreaElement;
+          const start = input.selectionStart ?? 0;
+          const end = input.selectionEnd ?? 0;
+          const cur = input.value ?? "";
+          const next = sanitize(cur.slice(0, start) + inserted + cur.slice(end));
+
+          if (pattern && next !== "" && !matchesPattern(pattern, next)) {
+            e.preventDefault();
+          }
+        };
+
         return (
           <div className="space-y-1.5 w-full">
-            {label && <Label>{label}</Label>}
+            {label && <Label htmlFor={identifier}>{label}</Label>}
             <Component
               {...field}
+              id={identifier}
+              data-testid={identifier}
               type={multiline ? undefined : type}
               rows={multiline ? rows : undefined}
               maxLength={maxLength}
               placeholder={placeholder}
-              onChange={(e) => field.onChange(sanitize(e.target.value))}
+              onBeforeInput={handleBeforeInput}
+              onChange={(e) => {
+                const next = sanitize(e.target.value);
+
+                if (pattern && next !== "" && !matchesPattern(pattern, next)) {
+                  e.target.value = field.value ?? "";
+                  return;
+                }
+
+                field.onChange(next);
+              }}
               onKeyDown={(e) => {
                 if (isEmail && (e.key === " " || e.code === "Space")) {
                   e.preventDefault();
                 } else if (
                   isPhone &&
+                  !e.ctrlKey &&
+                  !e.metaKey &&
                   !/\d/.test(e.key) &&
                   !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(e.key)
                 ) {

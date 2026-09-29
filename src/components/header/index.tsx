@@ -59,11 +59,6 @@ export const Header: React.FC = () => {
         </nav>
 
         <div className="hidden sm:flex items-center gap-3">
-          <a href={getManagementAppUrl("/login")}>
-            <Button variant="outline" size="sm" className="text-xs font-medium">
-              Sign In
-            </Button>
-          </a>
 
           <a href={getManagementAppUrl("/signup")}>
             <Button size="sm" className="text-xs font-semibold gap-1.5 group">

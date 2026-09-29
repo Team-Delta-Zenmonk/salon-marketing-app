@@ -6,16 +6,12 @@ import { HeroCarousel } from "./hero-carousel";
 import { getManagementAppUrl } from "@/lib/domain";
 
 const demoImages = [
-  "/demo-image/Screenshot from 2026-09-23 16-19-22.png",
-  "/demo-image/Screenshot from 2026-09-23 16-19-35.png",
-  "/demo-image/Screenshot from 2026-09-23 16-19-48.png",
-  "/demo-image/Screenshot from 2026-09-23 16-21-42.png",
-  "/demo-image/Screenshot from 2026-09-23 16-21-50.png",
-  "/demo-image/Screenshot from 2026-09-23 16-22-01.png",
-  "/demo-image/Screenshot from 2026-09-23 16-22-19.png",
-  "/demo-image/Screenshot from 2026-09-23 16-22-27.png",
-  "/demo-image/Screenshot from 2026-09-23 16-22-58.png",
-  "/demo-image/Screenshot from 2026-09-23 16-26-07.png",
+  "/demo-image/Screenshot from 2026-09-29 16-43-37.png",
+  "/demo-image/Screenshot from 2026-09-29 16-55-19.png",
+  "/demo-image/Screenshot from 2026-09-29 16-55-36.png",
+  "/demo-image/Screenshot from 2026-09-29 16-58-39.png",
+  "/demo-image/Screenshot from 2026-09-29 16-58-54.png",
+  "/demo-image/Screenshot from 2026-09-29 16-59-08.png",  
 ];
 
 export const Hero: React.FC = () => {
@@ -58,7 +54,7 @@ export const Hero: React.FC = () => {
               size="xl"
               className="w-full sm:w-auto text-base font-medium"
             >
-              Book a 1-on-1 VIP Demo
+              Contact Us
             </OpenDemoButton>
           </div>
 
@@ -78,7 +74,7 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-14 sm:mt-18 relative mx-auto max-w-5xl rounded-xl p-3 sm:p-4 bg-gradient-to-b from-border/70 to-border/30 border border-border shadow-2xl">
+        <div className="mt-14 sm:mt-18 relative mx-auto max-w-8xl rounded-xl p-3 sm:p-4 bg-gradient-to-b from-border/70 to-border/30 border border-border shadow-2xl">
           <div className="rounded-2xl bg-card border border-border/70 overflow-hidden shadow-inner">
             <div className="flex items-center justify-between border-b border-border/80 bg-muted/40 px-4 py-3">
               <div className="flex items-center gap-2">

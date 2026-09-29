@@ -7,11 +7,11 @@ import { Sparkles, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import TextField from "@/components/ui/text-field";
+import { VALIDATE_PATTERN } from "@/common/enums/validate-pattern";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   createLeadAction,
   resetLeadState,
-  closeDemoModal,
   createLeadSchema,
   type CreateLeadFormValues,
 } from "@/features/leads";
@@ -45,22 +45,27 @@ export const DemoModal: React.FC<DemoModalProps> = ({
   });
 
   const onSubmit = async (data: CreateLeadFormValues) => {
+    if (isSubmitting) return;
     await dispatch(createLeadAction(data));
   };
 
   const handleClose = () => {
+    if (isSubmitting) return;
     dispatch(resetLeadState());
-    dispatch(closeDemoModal());
     reset();
-    if (propOnClose) {
-      propOnClose();
-    }
+    propOnClose?.();
   };
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={handleClose}
+      disabled={isSubmitting}
+      onClose={(_event, reason) => {
+        if (isSubmitting && (reason === "backdropClick" || reason === "escapeKeyDown")) {
+          return;
+        }
+        handleClose();
+      }}
       title={isSuccess ? undefined : "Schedule a VIP Product Tour"}
       description={
         isSuccess
@@ -95,53 +100,63 @@ export const DemoModal: React.FC<DemoModalProps> = ({
             </div>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <TextField
-              name="name"
-              control={control}
-              label="Your Full Name *"
-              placeholder="e.g. Elena Alvarez"
-              maxLength={250}
-            />
+          <fieldset disabled={isSubmitting} className="space-y-4 border-0 p-0 m-0 min-w-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <TextField
+                name="name"
+                control={control}
+                label="Your Full Name *"
+                placeholder="e.g. Elena Alvarez"
+                maxLength={250}
+                pattern={VALIDATE_PATTERN.alphabet}
+                identifier="name"
+              />
+
+              <TextField
+                name="salon_name"
+                control={control}
+                label="Salon / Spa Name *"
+                placeholder="e.g. Atelier Luxe"
+                maxLength={250}
+                pattern={VALIDATE_PATTERN.alphabetWithSpecial}
+                identifier="salon_name"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <TextField
+                name="email"
+                control={control}
+                type="email"
+                label="Work Email *"
+                placeholder="elena@atelierluxe.com"
+                maxLength={100}
+                identifier="email"
+              />
+
+              <TextField
+                name="phone"
+                control={control}
+                type="text"
+                label="Phone Number"
+                placeholder="9876543210"
+                maxLength={10}
+                pattern={VALIDATE_PATTERN.number}
+                identifier="phone"
+              />
+            </div>
 
             <TextField
-              name="salon_name"
+              name="notes"
               control={control}
-              label="Salon / Spa Name *"
-              placeholder="e.g. Atelier Luxe"
-              maxLength={250}
+              label="What is your biggest operational challenge right now?"
+              placeholder="e.g. Too many no-shows, messy commission math, want instant client online booking..."
+              multiline
+              rows={2}
+              maxLength={500}
+              identifier="notes"
             />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <TextField
-              name="email"
-              control={control}
-              type="email"
-              label="Work Email *"
-              placeholder="elena@atelierluxe.com"
-              maxLength={250}
-            />
-
-            <TextField
-              name="phone"
-              control={control}
-              type="text"
-              label="Phone Number"
-              placeholder="9876543210"
-              maxLength={15}
-            />
-          </div>
-
-          <TextField
-            name="notes"
-            control={control}
-            label="What is your biggest operational challenge right now?"
-            placeholder="e.g. Too many no-shows, messy commission math, want instant client online booking..."
-            multiline
-            rows={2}
-            maxLength={500}
-          />
+          </fieldset>
 
           <div className="pt-2">
             <Button
