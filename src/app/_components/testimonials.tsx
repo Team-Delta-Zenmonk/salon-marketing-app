@@ -9,7 +9,7 @@ const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
 const testimonials: TestimonialItem[] = testimonialsData.map((t) => {
   return {
     ...t,
-    quote: t.quote.replace("Zenmonk", appName),
+    quote: t.quote.replaceAll("Zenmonk", appName),
   };
 });
 
@@ -55,7 +55,11 @@ export const Testimonials: React.FC = () => {
 
               <div className="pt-6 mt-6 border-t border-border/60 flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full bg-primary/15 text-primary font-bold text-sm flex items-center justify-center shrink-0">
-                  {t.name.split(" ").map((n) => n[0]).join("")}
+                  {t.name
+                    .trim()
+                    .split(/\s+/)
+                    .map((n) => n[0])
+                    .join("")}
                 </div>
                 <div>
                   <div className="text-sm font-bold text-foreground">{t.name}</div>

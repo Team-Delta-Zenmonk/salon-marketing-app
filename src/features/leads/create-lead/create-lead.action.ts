@@ -13,7 +13,7 @@ export const createLeadAction = createAsyncThunk<
     return res;
   } catch (err: any) {
     return thunkAPI.rejectWithValue(
-      err?.response?.data?.message || "Failed to submit demo request"
+      err?.response?.data?.message || err?.message || "Failed to submit demo request"
     );
   }
 });

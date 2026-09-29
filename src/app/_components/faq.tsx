@@ -10,8 +10,8 @@ const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
 const faqs: FaqItem[] = faqsData.map((faq) => {
   return {
     ...faq,
-    q: faq.q.replace("Zenmonk", appName),
-    a: faq.a.replace("Zenmonk", appName),
+    q: faq.q.replaceAll("Zenmonk", appName),
+    a: faq.a.replaceAll("Zenmonk", appName),
   };
 });
 

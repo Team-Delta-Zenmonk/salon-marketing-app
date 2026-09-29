@@ -108,7 +108,7 @@ export const DemoModal: React.FC<DemoModalProps> = ({
               name="salon_name"
               control={control}
               label="Salon / Spa Name *"
-              placeholder="e.g. Salon Name"
+              placeholder="e.g. Atelier Luxe"
               maxLength={250}
             />
           </div>

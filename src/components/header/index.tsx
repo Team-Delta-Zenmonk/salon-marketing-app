@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getManagementAppUrl } from "@/lib/domain";
@@ -21,7 +22,7 @@ export const Header: React.FC = () => {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/85 backdrop-blur-xl transition-all">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <a href="#" className="flex items-center gap-2.5 group">
+        <Link href="/" className="flex items-center gap-2.5 group">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 overflow-hidden border border-border/40 shadow-sm group-hover:scale-105 transition-transform">
             <Image
               src="/management-icon.png"
@@ -43,7 +44,7 @@ export const Header: React.FC = () => {
               Salon OS
             </span>
           </div>
-        </a>
+        </Link>
 
         <nav className="hidden lg:flex items-center gap-1 bg-card/60 p-1.5 rounded-full border border-border/70 shadow-xs">
           {navLinks.map((link) => (
