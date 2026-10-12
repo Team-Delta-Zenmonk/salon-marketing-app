@@ -46,7 +46,7 @@ export const Header: React.FC = () => {
           </div>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1 bg-card/60 p-1.5 rounded-full border border-border/70 shadow-xs">
+        <nav aria-label="Main navigation" className="hidden lg:flex items-center gap-1 bg-card/60 p-1.5 rounded-full border border-border/70 shadow-xs">
           {navLinks.map((link) => (
             <a
               key={link.label}
@@ -60,7 +60,7 @@ export const Header: React.FC = () => {
 
         <div className="hidden sm:flex items-center gap-3">
 
-          <a href={getManagementAppUrl("/signup")}>
+          <a href={getManagementAppUrl("/signup")} rel="noopener noreferrer">
             <Button size="sm" className="text-xs font-semibold gap-1.5 group">
               <span>Start 14-Day Free Trial</span>
               <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -79,7 +79,7 @@ export const Header: React.FC = () => {
 
       {mobileMenuOpen && (
         <div className="lg:hidden border-b border-border/80 bg-background/95 backdrop-blur-2xl px-6 py-6 space-y-4 animate-in slide-in-from-top-4">
-          <nav className="flex flex-col space-y-2">
+          <nav aria-label="Mobile navigation" className="flex flex-col space-y-2">
             {navLinks.map((link) => (
               <a
                 key={link.label}
@@ -93,13 +93,13 @@ export const Header: React.FC = () => {
           </nav>
 
           <div className="pt-4 border-t border-border flex flex-col gap-2.5">
-            <a href={getManagementAppUrl("/login")} className="w-full">
+            <a href={getManagementAppUrl("/login")} rel="noopener noreferrer" className="w-full">
               <Button variant="secondary" className="w-full justify-center">
                 Sign In to Salon App
               </Button>
             </a>
 
-            <a href={getManagementAppUrl("/signup")} className="w-full">
+            <a href={getManagementAppUrl("/signup")} rel="noopener noreferrer" className="w-full">
               <Button className="w-full justify-center font-semibold">
                 Start 14-Day Free Trial
               </Button>

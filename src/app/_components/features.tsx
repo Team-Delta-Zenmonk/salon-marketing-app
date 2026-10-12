@@ -80,7 +80,7 @@ export const Features: React.FC = () => {
               </div>
 
               <div className="pt-4">
-                <a href={getManagementAppUrl("/signup")}>
+                <a href={getManagementAppUrl("/signup")} rel="noopener noreferrer">
                   <Button className="gap-2 font-semibold group">
                     <span>Try This Feature Free</span>
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />

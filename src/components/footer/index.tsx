@@ -65,12 +65,12 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2.5 text-sm text-muted-foreground">
               <li>
-                <a href={getManagementAppUrl("/login")} className="hover:text-foreground transition-colors">
+                <a href={getManagementAppUrl("/login")} rel="noopener noreferrer" className="hover:text-foreground transition-colors">
                   Salon Owner Login
                 </a>
               </li>
               <li>
-                <a href={getManagementAppUrl("/signup")} className="hover:text-foreground transition-colors">
+                <a href={getManagementAppUrl("/signup")} rel="noopener noreferrer" className="hover:text-foreground transition-colors">
                   Start 14-Day Free Trial
                 </a>
               </li>
@@ -85,7 +85,7 @@ export const Footer: React.FC = () => {
                 </a>
               </li>
               <li>
-                <a href="https://admin.salon.com" className="hover:text-foreground transition-colors text-xs opacity-75">
+                <a href="https://admin.salon.com" rel="noopener noreferrer" className="hover:text-foreground transition-colors text-xs opacity-75">
                   {appName} Internal Admin
                 </a>
               </li>

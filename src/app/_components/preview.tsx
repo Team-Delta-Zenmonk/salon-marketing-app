@@ -62,7 +62,7 @@ export const Preview: React.FC = () => {
                   </h4>
                 </div>
                 <div className="flex items-center gap-2">
-                  <a href={getManagementAppUrl("/signup")}>
+                  <a href={getManagementAppUrl("/signup")} rel="noopener noreferrer">
                     <Button size="sm" className="text-xs font-semibold">
                       Explore Management App
                     </Button>
@@ -120,7 +120,7 @@ export const Preview: React.FC = () => {
                   </h4>
                 </div>
                 <div className="flex items-center gap-2">
-                  <a href={getStorefrontUrl("luxe")}>
+                  <a href={getStorefrontUrl("luxe")} rel="noopener noreferrer">
                     <Button size="sm" variant="outline" className="text-xs font-semibold">
                       Visit Live Customer Demo
                     </Button>

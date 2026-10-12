@@ -30,7 +30,7 @@ export const Cta: React.FC = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-              <a href={getManagementAppUrl("/signup")} className="w-full sm:w-auto">
+              <a href={getManagementAppUrl("/signup")} rel="noopener noreferrer" className="w-full sm:w-auto">
                 <Button size="xl" className="w-full sm:w-auto font-bold gap-2 group text-base shadow-lg shadow-primary/25 cursor-pointer">
                   <span>Start 14-Day Free Trial</span>
                   <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />

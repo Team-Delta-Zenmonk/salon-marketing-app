@@ -157,7 +157,7 @@ export const RoiCalculator: React.FC = () => {
               </div>
 
               <div className="pt-4 border-t border-border">
-                <a href={getManagementAppUrl("/signup")}>
+                <a href={getManagementAppUrl("/signup")} rel="noopener noreferrer">
                   <Button size="lg" className="w-full justify-center font-bold gap-2 group cursor-pointer">
                     <span>Unlock This Growth — Start Free Trial</span>
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />

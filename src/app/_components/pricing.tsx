@@ -100,7 +100,7 @@ export const Pricing: React.FC = () => {
                       <span>{plan.ctaText}</span>
                     </OpenDemoButton>
                   ) : (
-                    <a href={targetUrl} className="w-full">
+                    <a href={targetUrl} rel="noopener noreferrer" className="w-full">
                       <Button
                         variant={plan.popular ? "default" : "outline"}
                         size="default"

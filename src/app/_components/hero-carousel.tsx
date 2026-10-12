@@ -8,6 +8,16 @@ interface HeroCarouselProps {
   images: string[];
 }
 
+const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
+
+const carouselAlts = [
+  `${appName} salon appointment calendar and multi-staff scheduler dashboard`,
+  `${appName} client online booking storefront interface`,
+  `${appName} fast POS billing and GST invoice receipt system`,
+  `${appName} salon management dashboard with daily revenue analytics`,
+  `${appName} real-time inventory control and low-stock alert panel`,
+  `${appName} salon management platform with smart scheduling`,];
+
 export const HeroCarousel: React.FC<HeroCarouselProps> = ({ images }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const touchStartX = useRef<number | null>(null);
@@ -61,7 +71,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ images }) => {
           >
             <Image
               src={src}
-              alt={`Dashboard Screenshot ${idx + 1}`}
+              alt={carouselAlts[idx] || `${appName} salon management platform screenshot`}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 95vw, 1200px"
               priority={idx === 0}

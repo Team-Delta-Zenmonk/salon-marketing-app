@@ -18,9 +18,14 @@ export default function NotFound() {
   const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
 
   return (
-    <div className="flex-1 flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
+    <>
+      <head>
+        <title>404 - Page Not Found | {appName}</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </head>
+      <div className="flex-1 flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
 
       <div className="relative z-10 max-w-2xl w-full text-center">
         <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary mb-6 shadow-xs backdrop-blur-md">
@@ -58,7 +63,7 @@ export default function NotFound() {
               </Button>
             </Link>
 
-            <a href={getManagementAppUrl("/signup")} className="w-full sm:w-auto">
+            <a href={getManagementAppUrl("/signup")} rel="noopener noreferrer" className="w-full sm:w-auto">
               <Button variant="secondary" className="w-full sm:w-auto gap-2 px-6 py-5 text-sm font-semibold cursor-pointer">
                 <span>Start Free Trial</span>
                 <ArrowRight className="h-4 w-4" />
@@ -68,5 +73,6 @@ export default function NotFound() {
         </div>
       </div>
     </div>
+    </>
   );
 }
