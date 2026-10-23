@@ -107,7 +107,7 @@ export const DemoModal: React.FC<DemoModalProps> = ({
                 control={control}
                 label="Your Full Name *"
                 placeholder="e.g. Elena Alvarez"
-                maxLength={250}
+                maxLength={150}
                 pattern={VALIDATE_PATTERN.alphabet}
                 identifier="name"
               />
@@ -117,7 +117,7 @@ export const DemoModal: React.FC<DemoModalProps> = ({
                 control={control}
                 label="Salon / Spa Name *"
                 placeholder="e.g. Atelier Luxe"
-                maxLength={250}
+                maxLength={50}
                 pattern={VALIDATE_PATTERN.alphabetWithSpecial}
                 identifier="salon_name"
               />
@@ -130,7 +130,7 @@ export const DemoModal: React.FC<DemoModalProps> = ({
                 type="email"
                 label="Work Email *"
                 placeholder="elena@atelierluxe.com"
-                maxLength={100}
+                maxLength={150}
                 identifier="email"
               />
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
 import { cn } from "@/lib/utils";
 
@@ -23,67 +23,106 @@ export const EllipsisCell: React.FC<EllipsisCellProps> = ({
   ...props
 }) => {
   const elementRef = useRef<HTMLSpanElement>(null);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const typingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isTypingRef = useRef(false);
+  const isHoveredRef = useRef(false);
+
   const [showTooltip, setShowTooltip] = useState(false);
-  const [isOverflowing, setIsOverflowing] = useState(false);
-  const [tooltipPos, setTooltipPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
+  const [tooltipPos, setTooltipPos] = useState<{
+    top: number;
+    left: number;
+    placement: "top" | "bottom";
+  }>({ top: 0, left: 0, placement: "top" });
 
   const isCharTruncated = Boolean(maxChars && value && value.length > maxChars);
   const displayValue = isCharTruncated ? `${value.slice(0, maxChars)}...` : (value || "");
 
-  useEffect(() => {
+  // Check overflow: single-line inputs only check horizontal scrollWidth
+  const checkOverflow = useCallback((): boolean => {
+    if (isCharTruncated) return true;
     const element = elementRef.current;
-    if (!element) return;
+    if (!element) return false;
 
-    const checkOverflow = () => {
-      const target = (element.querySelector("input, textarea") as HTMLElement) || element;
-      setIsOverflowing(
-        isCharTruncated ||
-          target.scrollWidth > target.clientWidth ||
-          target.scrollHeight > target.clientHeight
-      );
-    };
-
-    checkOverflow();
-
-    const observer = new ResizeObserver(checkOverflow);
-    observer.observe(element);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [value, maxChars, isCharTruncated]);
-
-  const touchStartPos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-
-  const updatePosition = () => {
-    if (elementRef.current) {
-      const target = (elementRef.current.querySelector("input, textarea") as HTMLElement) || elementRef.current;
-      const rect = target.getBoundingClientRect();
-      setTooltipPos({
-        top: Math.max(10, rect.top - 36),
-        left: Math.max(20, Math.min(window.innerWidth - 20, rect.left + rect.width / 2)),
-      });
-    }
-  };
-
-  const checkCurrentlyOverflowing = (): boolean => {
-    const element = elementRef.current;
-    if (!element) return isOverflowing;
     const target = (element.querySelector("input, textarea") as HTMLElement) || element;
-    const overflowing =
-      isCharTruncated ||
-      target.scrollWidth > target.clientWidth ||
-      target.scrollHeight > target.clientHeight;
-    if (overflowing !== isOverflowing) {
-      setIsOverflowing(overflowing);
+    const isInput = target instanceof HTMLInputElement || target.tagName === "INPUT";
+    const isTextarea = target instanceof HTMLTextAreaElement || target.tagName === "TEXTAREA";
+
+    if (isInput) {
+      return target.scrollWidth > target.clientWidth + 1;
     }
-    return overflowing;
-  };
+    if (isTextarea || maxLines > 1) {
+      return (
+        target.scrollHeight > target.clientHeight + 1 ||
+        target.scrollWidth > target.clientWidth + 1
+      );
+    }
+    return target.scrollWidth > target.clientWidth + 1;
+  }, [isCharTruncated, maxLines]);
+
+  const updatePosition = useCallback(() => {
+    if (!elementRef.current) return;
+    const element = elementRef.current;
+    const inputTarget = element.querySelector("input, textarea") as HTMLElement | null;
+
+    let rect: DOMRect;
+    if (inputTarget) {
+      rect = inputTarget.getBoundingClientRect();
+    } else {
+      try {
+        const range = document.createRange();
+        range.selectNodeContents(element);
+        const rangeRect = range.getBoundingClientRect();
+        rect = rangeRect.width > 0 ? rangeRect : element.getBoundingClientRect();
+      } catch {
+        rect = element.getBoundingClientRect();
+      }
+    }
+
+    const placement: "top" | "bottom" = rect.top < 65 ? "bottom" : "top";
+    const top = placement === "top" ? rect.top - 8 : rect.bottom + 8;
+    const targetCenter = rect.left + rect.width / 2;
+    const left = Math.max(140, Math.min(window.innerWidth - 140, targetCenter));
+
+    setTooltipPos({ top, left, placement });
+  }, []);
+
+  // Suppress tooltip while typing; show on hover only when done typing
+  const handleTyping = useCallback(() => {
+    setShowTooltip(false);
+    isTypingRef.current = true;
+    if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
+
+    typingTimerRef.current = setTimeout(() => {
+      isTypingRef.current = false;
+      if (isHoveredRef.current && (checkOverflow() || forceTooltip)) {
+        updatePosition();
+        setShowTooltip(true);
+      }
+    }, 500);
+  }, [checkOverflow, forceTooltip, updatePosition]);
+
+  // Keep position accurate on scroll or resize when visible
+  useEffect(() => {
+    if (!showTooltip) return;
+    const reposition = () => updatePosition();
+    window.addEventListener("scroll", reposition, true);
+    window.addEventListener("resize", reposition);
+    return () => {
+      window.removeEventListener("scroll", reposition, true);
+      window.removeEventListener("resize", reposition);
+    };
+  }, [showTooltip, updatePosition]);
+
+  // Clean up timer on unmount
+  useEffect(() => {
+    return () => {
+      if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
+    };
+  }, []);
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLSpanElement>) => {
-    const overflowing = checkCurrentlyOverflowing();
-    if (overflowing || forceTooltip || isCharTruncated) {
+    isHoveredRef.current = true;
+    if (!isTypingRef.current && (checkOverflow() || forceTooltip)) {
       updatePosition();
       setShowTooltip(true);
     }
@@ -91,83 +130,38 @@ export const EllipsisCell: React.FC<EllipsisCellProps> = ({
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLSpanElement>) => {
-    if (timerRef.current) clearTimeout(timerRef.current);
+    isHoveredRef.current = false;
     setShowTooltip(false);
     props.onMouseLeave?.(e);
   };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLSpanElement>) => {
-    const overflowing = checkCurrentlyOverflowing();
-    if (overflowing || forceTooltip || isCharTruncated) {
-      updatePosition();
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => {
-        updatePosition();
-        setShowTooltip(true);
-      }, 200);
+    const target = (elementRef.current?.querySelector("input, textarea") as HTMLElement) || elementRef.current;
+    const isFormElement = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement;
+    if (isFormElement) {
+      setShowTooltip(false);
     }
     props.onMouseDown?.(e);
   };
 
-  const handleMouseUp = (e: React.MouseEvent<HTMLSpanElement>) => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
-    props.onMouseUp?.(e);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
+    handleTyping();
+    props.onKeyDown?.(e);
   };
 
-  const handleTouchStart = (e: React.TouchEvent<HTMLSpanElement>) => {
-    const touch = e.touches[0];
-    if (touch) {
-      touchStartPos.current = { x: touch.clientX, y: touch.clientY };
-    }
-    const overflowing = checkCurrentlyOverflowing();
-    if (overflowing || forceTooltip || isCharTruncated) {
-      updatePosition();
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => {
-        updatePosition();
-        setShowTooltip(true);
-      }, 200);
-    }
-    props.onTouchStart?.(e);
+  const handleBlur = (e: React.FocusEvent<HTMLSpanElement>) => {
+    setShowTooltip(false);
+    isTypingRef.current = false;
+    if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
+    props.onBlur?.(e);
   };
-
-  const handleTouchMove = (e: React.TouchEvent<HTMLSpanElement>) => {
-    const touch = e.touches[0];
-    if (touch) {
-      const dx = Math.abs(touch.clientX - touchStartPos.current.x);
-      const dy = Math.abs(touch.clientY - touchStartPos.current.y);
-      if (dx > 10 || dy > 10) {
-        if (timerRef.current) {
-          clearTimeout(timerRef.current);
-          timerRef.current = null;
-        }
-        setShowTooltip(false);
-      }
-    }
-    props.onTouchMove?.(e);
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent<HTMLSpanElement>) => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
-    setTimeout(() => setShowTooltip(false), 1500);
-    props.onTouchEnd?.(e);
-  };
-
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, []);
 
   const portalContent = showTooltip && Boolean(value) && typeof window !== "undefined" && (
     <div
-      className="fixed z-[99999] px-3 py-1.5 bg-neutral-900 text-white text-xs font-semibold rounded-lg shadow-2xl border border-neutral-700 pointer-events-none max-w-[280px] sm:max-w-xs break-words text-center -translate-x-1/2 animate-in fade-in-0 zoom-in-95"
+      className={cn(
+        "fixed z-[99999] px-3 py-1.5 bg-neutral-900 text-white text-xs font-semibold rounded-lg shadow-2xl border border-neutral-700 pointer-events-none max-w-[280px] sm:max-w-xs break-words text-center -translate-x-1/2 animate-in fade-in-0 zoom-in-95",
+        tooltipPos.placement === "top" ? "-translate-y-full" : "translate-y-0"
+      )}
       style={{
         top: `${tooltipPos.top}px`,
         left: `${tooltipPos.left}px`,
@@ -183,12 +177,9 @@ export const EllipsisCell: React.FC<EllipsisCellProps> = ({
         ref={elementRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        onTouchMove={handleTouchMove}
-        onTouchCancel={handleTouchEnd}
         onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
+        onKeyDown={handleKeyDown}
+        onBlur={handleBlur}
         onContextMenu={(e) => {
           if (showTooltip) e.preventDefault();
         }}

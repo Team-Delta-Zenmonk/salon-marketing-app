@@ -85,7 +85,7 @@ export const Footer: React.FC = () => {
                 </a>
               </li>
               <li>
-                <a href="https://admin.salon.com" rel="noopener noreferrer" className="hover:text-foreground transition-colors text-xs opacity-75">
+                <a href="https://admin.salon.com" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
                   {appName} Internal Admin
                 </a>
               </li>
