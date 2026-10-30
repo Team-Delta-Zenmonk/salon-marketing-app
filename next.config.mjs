@@ -10,7 +10,7 @@ const nextConfig = {
   outputFileTracingRoot: __dirname,
   poweredByHeader: false,
   compress: true,
-  reactStrictMode: true,
+  reactStrictMode: false,
 
   async headers() {
     return [

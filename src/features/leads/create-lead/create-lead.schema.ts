@@ -5,7 +5,7 @@ export const createLeadSchema = z.object({
     .string()
     .min(1, "Required")
     .max(150, "Name cannot exceed 150 characters")
-    .regex(VALIDATE_PATTERN.alphabet, { message: "Only alphabets are allowed" }),
+    .regex(VALIDATE_PATTERN.alphaNumericSpecialWithSpace, { message: "Only alphabets and special characters are allowed" }),
   salon_name: z
     .string()
     .min(1, "Required")

@@ -108,7 +108,7 @@ export const DemoModal: React.FC<DemoModalProps> = ({
                 label="Your Full Name *"
                 placeholder="e.g. Elena Alvarez"
                 maxLength={150}
-                pattern={VALIDATE_PATTERN.alphabet}
+                pattern={VALIDATE_PATTERN.alphaNumericSpecialWithSpace}
                 identifier="name"
               />
 
