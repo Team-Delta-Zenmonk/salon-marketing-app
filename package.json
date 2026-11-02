@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3004",
     "lint": "next lint"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.88.0",
+    "react-infinite-scroll-component": "^7.2.1",
     "react-redux": "^9.3.0",
     "sharp": "^0.33.4",
     "tailwind-merge": "^3.7.0",

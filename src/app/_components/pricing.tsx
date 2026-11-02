@@ -1,16 +1,136 @@
-import React from "react";
-import { Check, Sparkles, ArrowRight, ShieldCheck, PhoneCall } from "lucide-react";
+"use client";
+
+import React, { useEffect } from "react";
+import { Check, Sparkles, ArrowRight, ShieldCheck, PhoneCall, Loader2 } from "lucide-react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { OpenDemoButton } from "@/components/open-demo-button";
 import { getManagementAppUrl } from "@/lib/domain";
-import plansData from "@/data/plans.json";
 import type { PlanItem } from "@/interfaces/plan.interface";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchSubscriptionPlans } from "@/features/plans/plans.action";
+import type { BackendPlan } from "@/features/plans/plans.slice";
+import EllipsisCell from "@/components/ellipse-cell";
 
-const defaultPlans: PlanItem[] = plansData;
+const DEFAULT_HIGHLIGHTS: Record<string, string[]> = {
+  trial: [
+    "14-day complete platform exploration",
+    "Instant branded storefront (slug.salon.com)",
+    "Smart appointment scheduler & calendar",
+    "Walk-in booking & customer management",
+    "Basic service categories & staff setup",
+    "Stripe card deposit capability",
+  ],
+  monthly: [
+    "Unlimited client bookings & appointments",
+    "Branded custom storefront (slug.salon.com)",
+    "Walk-in POS invoicing & thermal receipts",
+    "Automated SMS & email appointment alerts",
+    "Staff management, commissions & tips",
+    "Real-time retail inventory depletion",
+    "Daily rolling Stripe Connect payouts",
+  ],
+  yearly: [
+    "Everything in Monthly Plan",
+    "Save 2 months free every year",
+    "Priority live chat & onboarding concierge",
+    "Free client data migration from legacy tools",
+    "Full POS, inventory & commission tracking",
+    "Unlimited staff & specialist accounts",
+    "Multi-device front desk & mobile sync",
+  ],
+  enterprise: [
+    "Unlimited salon locations & staff chairs",
+    "Multi-branch centralized command dashboard",
+    "Custom domain setup (yourbrand.com)",
+    "Dedicated VIP account manager & staff training",
+    "Custom API integrations & webhook access",
+    "99.98% Enterprise Uptime SLA guarantee",
+  ],
+  default: [
+    "Full platform access & scheduler",
+    "Online client bookings & reminders",
+    "Staff, POS & appointment management",
+    "Real-time analytics & reporting",
+  ],
+};
+
+function formatPlanItem(plan: BackendPlan): PlanItem {
+  const codeKey = (plan.code || String(plan.id)).toLowerCase();
+
+  const priceDisplay =
+    plan.amount === 0 || plan.formatted_price === "Free"
+      ? "₹0"
+      : plan.formatted_price || `₹${plan.amount.toLocaleString("en-IN")}`;
+
+  const periodDisplay =
+    plan.billing_cycle ||
+    (plan.duration_days === 365
+      ? "/ year"
+      : plan.duration_days === 30
+        ? "/ month"
+        : plan.duration_days
+          ? `for ${plan.duration_days} days`
+          : "");
+
+  const features =
+    DEFAULT_HIGHLIGHTS[codeKey] ||
+    (plan.description
+      ? [plan.description, ...DEFAULT_HIGHLIGHTS.default.slice(1)]
+      : DEFAULT_HIGHLIGHTS.default);
+
+  const isPopular = codeKey === "yearly";
+  const isDemo = codeKey === "enterprise";
+
+  return {
+    id: String(plan.id),
+    name: plan.name,
+    badge: isPopular ? "Best Value" : plan.amount === 0 ? "Zero Risk" : "",
+    priceDisplay,
+    periodDisplay,
+    subtext: plan.duration_days
+      ? `${plan.duration_days} days validity`
+      : "Subscription plan",
+    tagline:
+      plan.description ||
+      "Reliable and tailored salon management operating system.",
+    popular: isPopular,
+    features,
+    ctaText: isDemo
+      ? "Contact Us"
+      : plan.amount === 0
+        ? "Start Free Trial"
+        : `Choose ${plan.name}`,
+    ctaPath: isDemo
+      ? "#"
+      : `/signup?plan=${encodeURIComponent(plan.code || plan.id)}`,
+    isDemo,
+  };
+}
 
 export const Pricing: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const {
+    plans: reduxPlans,
+    hasMore,
+    page,
+    isInitialLoading,
+  } = useAppSelector((state) => state.plans);
+
+  useEffect(() => {
+    dispatch(fetchSubscriptionPlans({ page: 1, limit: 10, is_active: true }));
+  }, [dispatch]);
+
+  const fetchMorePlans = () => {
+    if (hasMore) {
+      dispatch(fetchSubscriptionPlans({ page: page + 1, limit: 10, is_active: true }));
+    }
+  };
+
+  const displayedPlans: PlanItem[] = reduxPlans.map(formatPlanItem);
+
   return (
     <section id="pricing" className="py-20 lg:py-32 bg-card/40 border-y border-border/80 scroll-mt-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -26,96 +146,132 @@ export const Pricing: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-          {defaultPlans.map((plan) => {
-            const targetUrl = plan.ctaPath.startsWith("/")
-              ? getManagementAppUrl(plan.ctaPath)
-              : plan.ctaPath;
-
-            return (
-              <Card
-                key={plan.id}
-                className={`relative flex flex-col justify-between transition-all duration-300 ${
-                  plan.popular
-                    ? "border-primary/80 bg-background shadow-xl ring-2 ring-primary/30 scale-102"
-                    : "border-border/80 bg-card hover:border-primary/40"
-                }`}
+        {isInitialLoading && reduxPlans.length === 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+            {[1, 2, 3, 4].map((i) => (
+              <div
+                key={`pricing-skeleton-${i}`}
+                className="rounded-2xl border border-border/60 bg-card p-6 flex flex-col justify-between animate-pulse space-y-6"
               >
-                {plan.badge && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                    <span
-                      className={`rounded-full px-3 py-0.5 text-[11px] font-bold shadow-xs uppercase tracking-wider ${
-                        plan.popular
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-muted text-foreground border border-border"
-                      }`}
-                    >
-                      {plan.badge}
-                    </span>
+                <div className="space-y-4">
+                  <div className="h-4 w-28 bg-muted rounded-md" />
+                  <div className="h-6 w-36 bg-muted rounded-md" />
+                  <div className="h-4 w-full bg-muted/60 rounded-md" />
+                  <div className="pt-3 border-b border-border/50 space-y-2">
+                    <div className="h-8 w-32 bg-muted rounded-md" />
+                    <div className="h-3 w-40 bg-muted/60 rounded-md" />
                   </div>
-                )}
-
-                <div>
-                  <CardHeader className="pb-4">
-                    <CardTitle className="text-xl font-bold">{plan.name}</CardTitle>
-                    <CardDescription className="min-h-[44px] pt-1 text-xs">
-                      {plan.tagline}
-                    </CardDescription>
-
-                    <div className="pt-3 flex items-baseline gap-1">
-                      <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground font-mono">
-                        {plan.priceDisplay}
-                      </span>
-                      <span className="text-xs font-medium text-muted-foreground">
-                        {plan.periodDisplay}
-                      </span>
-                    </div>
-
-                    <div className="text-[10px] text-muted-foreground mt-0.5 font-medium">
-                      {plan.subtext}
-                    </div>
-                  </CardHeader>
-
-                  <CardContent className="space-y-2.5 pb-6">
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground pb-1">
-                      Key Highlights
-                    </div>
-                    {plan.features.map((feature, fIdx) => (
-                      <div key={fIdx} className="flex items-start gap-2 text-xs text-foreground">
-                        <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                        <span>{feature}</span>
-                      </div>
+                  <div className="space-y-2 pt-2">
+                    {[1, 2, 3, 4].map((f) => (
+                      <div key={f} className="h-3 bg-muted/60 rounded-md w-3/4" />
                     ))}
-                  </CardContent>
+                  </div>
                 </div>
+                <div className="h-10 w-full bg-muted rounded-xl" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <InfiniteScroll
+            dataLength={displayedPlans.length}
+            next={fetchMorePlans}
+            hasMore={hasMore}
+            loader={
+              <div className="flex justify-center py-8 w-full col-span-full">
+                <Loader2 className="w-6 h-6 animate-spin text-primary/70" />
+              </div>
+            }
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+              {displayedPlans.map((plan) => {
+                const targetUrl = plan.ctaPath.startsWith("/")
+                  ? getManagementAppUrl(plan.ctaPath)
+                  : plan.ctaPath;
 
-                <CardFooter className="pt-0">
-                  {plan.isDemo ? (
-                    <OpenDemoButton
-                      variant="outline"
-                      size="default"
-                      className="w-full justify-center font-bold gap-2 text-xs cursor-pointer"
-                    >
-                      <PhoneCall className="h-3.5 w-3.5" />
-                      <span>{plan.ctaText}</span>
-                    </OpenDemoButton>
-                  ) : (
-                    <a href={targetUrl} rel="noopener noreferrer" className="w-full">
-                      <Button
-                        variant={plan.popular ? "default" : "outline"}
-                        size="default"
-                        className="w-full justify-center font-bold gap-1.5 text-xs group cursor-pointer"
-                      >
-                        <span>{plan.ctaText}</span>
-                        <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
-                      </Button>
-                    </a>
-                  )}
-                </CardFooter>
-              </Card>
-            );
-          })}
-        </div>
+                return (
+                  <Card
+                    key={plan.id}
+                    className={`relative flex flex-col justify-between transition-all duration-300 ${plan.popular
+                        ? "border-primary/80 bg-background shadow-xl ring-2 ring-primary/30 scale-102"
+                        : "border-border/80 bg-card hover:border-primary/40"
+                      }`}
+                  >
+                    {plan.badge && (
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                        <span
+                          className={`rounded-full px-3 py-0.5 text-[11px] font-bold shadow-xs uppercase tracking-wider ${plan.popular
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-muted text-foreground border border-border"
+                            }`}
+                        >
+                          {plan.badge}
+                        </span>
+                      </div>
+                    )}
+
+                    <div>
+                      <CardHeader className="pb-4">
+                        <CardTitle className="text-xl font-bold"><EllipsisCell value={plan.name} /></CardTitle>
+                        <CardDescription className="min-h-[44px] pt-1 text-xs">
+                          {plan.tagline}
+                        </CardDescription>
+
+                        <div className="pt-3 flex items-baseline gap-1">
+                          <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground font-mono">
+                            {plan.priceDisplay}
+                          </span>
+                          <span className="text-xs font-medium text-muted-foreground">
+                            {plan.periodDisplay}
+                          </span>
+                        </div>
+
+                        <div className="text-[10px] text-muted-foreground mt-0.5 font-medium">
+                          {plan.subtext}
+                        </div>
+                      </CardHeader>
+
+                      <CardContent className="space-y-2.5 pb-6">
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground pb-1">
+                          Key Highlights
+                        </div>
+                        {plan.features.map((feature, fIdx) => (
+                          <div key={fIdx} className="flex items-start gap-2 text-xs text-foreground">
+                            <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                            <span>{feature}</span>
+                          </div>
+                        ))}
+                      </CardContent>
+                    </div>
+
+                    <CardFooter className="pt-0">
+                      {plan.isDemo ? (
+                        <OpenDemoButton
+                          variant="outline"
+                          size="default"
+                          className="w-full justify-center font-bold gap-2 text-xs cursor-pointer"
+                        >
+                          <PhoneCall className="h-3.5 w-3.5" />
+                          <EllipsisCell value={plan.ctaText} />
+                        </OpenDemoButton>
+                      ) : (
+                        <a href={targetUrl} rel="noopener noreferrer" className="w-full">
+                          <Button
+                            variant={plan.popular ? "default" : "outline"}
+                            size="default"
+                            className="w-full justify-center font-bold gap-1.5 text-xs group cursor-pointer"
+                          >
+                              <EllipsisCell value={plan.ctaText} />
+                            <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+                          </Button>
+                        </a>
+                      )}
+                    </CardFooter>
+                  </Card>
+                );
+              })}
+            </div>
+          </InfiniteScroll>
+        )}
 
         <div className="mt-12 rounded-2xl border border-border/80 bg-background/80 p-6 text-center max-w-2xl mx-auto space-y-2">
           <div className="flex items-center justify-center gap-2 text-emerald-600 font-bold text-sm">
