@@ -6,7 +6,15 @@ export const createLeadService = async (
 ): Promise<CreateLeadResponse> => {
   const res = await axiosInstance.post<CreateLeadResponse>(
     "/api/public/leads",
-    payload
+    {
+      name: payload.name,
+      email: payload.email,
+      phone: payload.phone,
+      salonName: payload.salon_name,
+      salon_name: payload.salon_name,
+      message: payload.notes,
+      notes: payload.notes,
+    }
   );
   return res.data;
 };
