@@ -11,7 +11,7 @@ export const RoiCalculator: React.FC = () => {
   const [stylists, setStylists] = useState<number>(5);
   const [appointmentsPerDay, setAppointmentsPerDay] = useState<number>(6);
   const [avgTicket, setAvgTicket] = useState<number>(650);
-  const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
+  const appName = process.env.NEXT_PUBLIC_APP_NAME || "Salops";
 
   const workingDays = 26;
   const totalMonthlyAppointments = stylists * appointmentsPerDay * workingDays;

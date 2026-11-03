@@ -25,7 +25,7 @@ export const DemoModal: React.FC<DemoModalProps> = ({
   isOpen: propIsOpen,
   onClose: propOnClose,
 }) => {
-  const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
+  const appName = process.env.NEXT_PUBLIC_APP_NAME || "Salops";
   const dispatch = useAppDispatch();
   const { isSubmitting, isSuccess, successMessage, error, isDemoModalOpen } = useAppSelector(
     (state) => state.leads

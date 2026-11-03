@@ -7,7 +7,7 @@ import { Footer } from "@/components/footer";
 import { DemoModal } from "./_components/demo-modal";
 import { FloatingWidget } from "@/components/floating-widget";
 
-const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
+const appName = process.env.NEXT_PUBLIC_APP_NAME || "Salops";
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://salon-marketing-app.vercel.app";
 const googleVerification =
@@ -102,6 +102,16 @@ export const metadata: Metadata = {
     title: `${appName} — The Operating System for Modern Salons & Spas`,
     description:
       "Automate salon appointments, launch branded storefronts, POS invoicing & inventory. Start free for 14 days.",
+  },
+
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
 
   ...(googleVerification

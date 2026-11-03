@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import testimonialsData from "@/data/testimonials.json";
 import type { TestimonialItem } from "@/interfaces/testimonial.interface";
 
-const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
+const appName = process.env.NEXT_PUBLIC_APP_NAME || "Salops";
 const testimonials: TestimonialItem[] = testimonialsData.map((t) => {
   return {
     ...t,

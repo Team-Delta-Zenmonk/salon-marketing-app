@@ -8,7 +8,7 @@ interface HeroCarouselProps {
   images: string[];
 }
 
-const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
+const appName = process.env.NEXT_PUBLIC_APP_NAME || "Salops";
 
 const carouselAlts = [
   `${appName} salon appointment calendar and multi-staff scheduler dashboard`,

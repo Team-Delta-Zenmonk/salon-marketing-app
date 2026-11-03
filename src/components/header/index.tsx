@@ -23,20 +23,20 @@ export const Header: React.FC = () => {
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/85 backdrop-blur-xl transition-all">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 overflow-hidden border border-border/40 shadow-sm group-hover:scale-105 transition-transform">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl overflow-hidden border border-border/40 shadow-sm group-hover:scale-105 transition-transform">
             <Image
-              src="/management-icon.png"
-              alt="Management Logo"
+              src="/logo.svg"
+              alt="Salops Logo"
               width={40}
               height={40}
               priority
-              className="h-full w-full object-cover"
+              className="h-full w-full object-contain"
             />
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
               <span className="text-xl font-bold tracking-tight text-foreground font-sans">
-                {process.env.NEXT_PUBLIC_APP_NAME || "Veloura"}
+                {process.env.NEXT_PUBLIC_APP_NAME || "Salops"}
               </span>
               <span className="h-1.5 w-1.5 rounded-full bg-primary" />
             </div>

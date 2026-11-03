@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import faqsData from "@/data/faqs.json";
 import type { FaqItem } from "@/interfaces/faq.interface";
 
-const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
+const appName = process.env.NEXT_PUBLIC_APP_NAME || "Salops";
 const faqs: FaqItem[] = faqsData.map((faq) => {
   return {
     ...faq,

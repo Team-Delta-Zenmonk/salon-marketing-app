@@ -11,7 +11,7 @@ import { Cta } from "./_components/cta";
 import faqsData from "@/data/faqs.json";
 import testimonialsData from "@/data/testimonials.json";
 
-const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
+const appName = process.env.NEXT_PUBLIC_APP_NAME || "Salops";
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://salon-marketing-app.vercel.app";
 
@@ -36,7 +36,7 @@ const jsonLd = {
       url: siteUrl,
       logo: {
         "@type": "ImageObject",
-        url: `${siteUrl}/management-icon.png`,
+        url: `${siteUrl}/logo.svg`,
         width: 512,
         height: 512,
       },

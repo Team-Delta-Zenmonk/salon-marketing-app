@@ -15,7 +15,7 @@ const demoImages = [
 ];
 
 export const Hero: React.FC = () => {
-  const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
+  const appName = process.env.NEXT_PUBLIC_APP_NAME || "Salops";
 
   return (
     <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-32">

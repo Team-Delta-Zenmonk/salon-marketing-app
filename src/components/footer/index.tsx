@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
+  const appName = process.env.NEXT_PUBLIC_APP_NAME || "Salops";
 
   return (
     <footer className="border-t border-border/80 bg-card/60 text-card-foreground overflow-hidden">
@@ -13,14 +13,14 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 lg:gap-8">
           <div className="sm:col-span-2 space-y-4 sm:space-y-5">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-xs">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden shadow-xs">
                 <Image
-                  src="/management-icon.png"
-                  alt="Management Logo"
-                  width={40}
-                  height={40}
+                  src="/logo.svg"
+                  alt={`${appName} Logo`}
+                  width={36}
+                  height={36}
                   priority
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-contain"
                 />
               </div>
               <div className="flex items-center gap-1.5">

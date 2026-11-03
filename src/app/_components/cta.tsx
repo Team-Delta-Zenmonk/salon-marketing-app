@@ -5,7 +5,7 @@ import { OpenDemoButton } from "@/components/open-demo-button";
 import { getManagementAppUrl } from "@/lib/domain";
 
 export const Cta: React.FC = () => {
-  const appName = process.env.NEXT_PUBLIC_APP_NAME || "Veloura";
+  const appName = process.env.NEXT_PUBLIC_APP_NAME || "Salops";
 
   return (
     <section className="relative overflow-hidden py-20 lg:py-28">
