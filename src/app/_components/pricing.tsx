@@ -147,11 +147,11 @@ export const Pricing: React.FC = () => {
         </div>
 
         {isInitialLoading && reduxPlans.length === 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+          <div className="flex flex-wrap justify-center gap-6 lg:gap-8 items-stretch pt-4 pb-6 px-1 sm:px-2">
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={`pricing-skeleton-${i}`}
-                className="rounded-2xl border border-border/60 bg-card p-6 flex flex-col justify-between animate-pulse space-y-6"
+                className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] min-w-[260px] max-w-[340px] rounded-2xl border border-border/60 bg-card p-6 flex flex-col justify-between animate-pulse space-y-6"
               >
                 <div className="space-y-4">
                   <div className="h-4 w-28 bg-muted rounded-md" />
@@ -176,13 +176,14 @@ export const Pricing: React.FC = () => {
             dataLength={displayedPlans.length}
             next={fetchMorePlans}
             hasMore={hasMore}
+            className="overflow-visible!"
             loader={
               <div className="flex justify-center py-8 w-full col-span-full">
                 <Loader2 className="w-6 h-6 animate-spin text-primary/70" />
               </div>
             }
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+            <div className="flex flex-wrap justify-center gap-6 lg:gap-8 items-stretch pt-4 pb-6 px-1 sm:px-2">
               {displayedPlans.map((plan) => {
                 const targetUrl = plan.ctaPath.startsWith("/")
                   ? getManagementAppUrl(plan.ctaPath)
@@ -191,15 +192,15 @@ export const Pricing: React.FC = () => {
                 return (
                   <Card
                     key={plan.id}
-                    className={`relative flex flex-col justify-between transition-all duration-300 ${plan.popular
-                        ? "border-primary/80 bg-background shadow-xl ring-2 ring-primary/30 scale-102"
+                    className={`w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] min-w-[260px] max-w-[340px] relative flex flex-col justify-between transition-all duration-300 ${plan.popular
+                        ? "border-primary/80 bg-background shadow-xl ring-2 ring-primary/30 sm:scale-102"
                         : "border-border/80 bg-card hover:border-primary/40"
                       }`}
                   >
                     {plan.badge && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap z-10">
                         <span
-                          className={`rounded-full px-3 py-0.5 text-[11px] font-bold shadow-xs uppercase tracking-wider ${plan.popular
+                          className={`rounded-full px-3 py-0.5 text-[11px] font-bold shadow-sm uppercase tracking-wider ${plan.popular
                               ? "bg-primary text-primary-foreground"
                               : "bg-muted text-foreground border border-border"
                             }`}
@@ -209,59 +210,61 @@ export const Pricing: React.FC = () => {
                       </div>
                     )}
 
-                    <div>
-                      <CardHeader className="pb-4">
-                        <CardTitle className="text-xl font-bold"><EllipsisCell value={plan.name} /></CardTitle>
-                        <CardDescription className="min-h-[44px] pt-1 text-xs">
+                    <div className="flex flex-col flex-1">
+                      <CardHeader className="p-5 sm:p-6 pb-4">
+                        <CardTitle className="text-xl font-bold truncate">
+                          <EllipsisCell value={plan.name} className="truncate" />
+                        </CardTitle>
+                        <CardDescription className="min-h-[44px] pt-1 text-xs break-words">
                           {plan.tagline}
                         </CardDescription>
 
-                        <div className="pt-3 flex items-baseline gap-1">
-                          <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground font-mono">
+                        <div className="pt-3 flex items-baseline gap-1 flex-wrap">
+                          <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground font-mono break-all">
                             {plan.priceDisplay}
                           </span>
-                          <span className="text-xs font-medium text-muted-foreground">
+                          <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">
                             {plan.periodDisplay}
                           </span>
                         </div>
 
-                        <div className="text-[10px] text-muted-foreground mt-0.5 font-medium">
+                        <div className="text-[10px] text-muted-foreground mt-0.5 font-medium truncate">
                           {plan.subtext}
                         </div>
                       </CardHeader>
 
-                      <CardContent className="space-y-2.5 pb-6">
+                      <CardContent className="p-5 sm:p-6 pt-0 space-y-2.5 pb-6 flex-1">
                         <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground pb-1">
                           Key Highlights
                         </div>
                         {plan.features.map((feature, fIdx) => (
                           <div key={fIdx} className="flex items-start gap-2 text-xs text-foreground">
                             <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                            <span>{feature}</span>
+                            <span className="leading-snug break-words">{feature}</span>
                           </div>
                         ))}
                       </CardContent>
                     </div>
 
-                    <CardFooter className="pt-0">
+                    <CardFooter className="p-5 sm:p-6 pt-0">
                       {plan.isDemo ? (
                         <OpenDemoButton
                           variant="outline"
                           size="default"
-                          className="w-full justify-center font-bold gap-2 text-xs cursor-pointer"
+                          className="w-full justify-center font-bold gap-2 text-xs cursor-pointer min-w-0"
                         >
-                          <PhoneCall className="h-3.5 w-3.5" />
-                          <EllipsisCell value={plan.ctaText} />
+                          <PhoneCall className="h-3.5 w-3.5 shrink-0" />
+                          <EllipsisCell value={plan.ctaText} className="truncate" />
                         </OpenDemoButton>
                       ) : (
-                        <a href={targetUrl} rel="noopener noreferrer" className="w-full">
+                        <a href={targetUrl} rel="noopener noreferrer" className="w-full min-w-0">
                           <Button
                             variant={plan.popular ? "default" : "outline"}
                             size="default"
-                            className="w-full justify-center font-bold gap-1.5 text-xs group cursor-pointer"
+                            className="w-full justify-center font-bold gap-1.5 text-xs group cursor-pointer min-w-0"
                           >
-                              <EllipsisCell value={plan.ctaText} />
-                            <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+                            <EllipsisCell value={plan.ctaText} className="truncate" />
+                            <ArrowRight className="h-3.5 w-3.5 shrink-0 group-hover:translate-x-0.5 transition-transform" />
                           </Button>
                         </a>
                       )}
