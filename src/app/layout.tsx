@@ -96,12 +96,21 @@ export const metadata: Metadata = {
     title: `${appName} — The Operating System for Modern Salons & Spas`,
     description:
       "Automate appointments, launch branded client storefronts, speed up POS checkout, and track inventory in real time. 14-day free trial with zero setup fees.",
+    images: [
+      {
+        url: `${siteUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: `${appName} Salon OS`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${appName} — The Operating System for Modern Salons & Spas`,
     description:
       "Automate salon appointments, launch branded storefronts, POS invoicing & inventory. Start free for 14 days.",
+    images: [`${siteUrl}/twitter-image.png`],
   },
 
   icons: {
