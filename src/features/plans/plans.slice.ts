@@ -12,6 +12,7 @@ export interface BackendPlan {
   currency: string;
   billing_cycle: string;
   description: string | null;
+  badge?: string | null;
   duration_days?: number;
   is_active?: boolean;
 }

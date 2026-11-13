@@ -87,7 +87,7 @@ function formatPlanItem(plan: BackendPlan): PlanItem {
   return {
     id: String(plan.id),
     name: plan.name,
-    badge: isPopular ? "Best Value" : plan.amount === 0 ? "Zero Risk" : "",
+    badge: plan.badge || (isPopular ? "Best Value" : plan.amount === 0 ? "Zero Risk" : ""),
     priceDisplay,
     periodDisplay,
     subtext: plan.duration_days
@@ -96,7 +96,7 @@ function formatPlanItem(plan: BackendPlan): PlanItem {
     tagline:
       plan.description ||
       "Reliable and tailored salon management operating system.",
-    popular: isPopular,
+    popular: Boolean(plan.badge) || isPopular,
     features,
     ctaText: isDemo
       ? "Contact Us"
